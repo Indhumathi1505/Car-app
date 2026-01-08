@@ -1,0 +1,64 @@
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 40px;
+  background-color: black;
+}
+
+
+.hamburger {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.hamburger span {
+  display: block;
+  height: 4px;
+  background: #fff;
+  border-radius: 4px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo {
+  height: 36px;
+  object-fit: contain;
+}
+
+.brand-title {
+  font-size: 28px;
+  color: #437ea5;
+  letter-spacing: 6px;
+  margin: 0;
+}
+
+.topnav {
+  display: flex;
+  gap: 20px;
+}
+
+.topnav-n {
+  background: #111;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+.topnav-n:hover {
+  color: #00aaff;
+}

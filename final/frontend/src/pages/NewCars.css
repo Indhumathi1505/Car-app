@@ -1,0 +1,173 @@
+.newcars-container {
+  padding: 30px;
+}
+
+.newcars-container h2 {
+  text-align: center;
+  color: #3aa0ff;
+  margin-bottom: 25px;
+}
+
+.car-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.car-box {
+  background: #11162a;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.6);
+}
+
+.car-box img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.car-box h3 {
+  color: #4aa3ff;
+}
+
+.car-box p {
+  color: #ccc;
+}
+
+
+/* Filter Button */
+.filter-btn {
+  background-color:#0af;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+  background-color: #0af;
+}
+
+/* Filter Panel */
+.filter-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.filter-panel select,
+.filter-panel input {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+
+
+
+/* Slide-out Filter Panel */
+.slide-filter {
+  position: fixed;
+  top: 0;
+  left: -320px; /* hidden by default */
+  width: 300px;
+  height: 100%;
+  background-color:rgb(11, 11, 11);
+  padding-top: 20px;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.2);
+  overflow-y: auto;
+  transition: left 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.slide-filter.open {
+  left: 0;
+}
+
+/* Close Button */
+.slide-filter .close-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  font-weight: bold;
+  color: #0af;
+  cursor: pointer;
+  align-self: flex-end;
+  margin-bottom: 15px;
+}
+
+/* Filter Headings */
+.slide-filter h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #0af;
+  text-transform: uppercase;
+}
+
+/* Inputs and Selects */
+.slide-filter select,
+.slide-filter input {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.slide-filter select:focus,
+.slide-filter input:focus {
+  border-color: #1e90ff;
+  box-shadow: 0 0 5px rgba(30,144,255,0.3);
+  outline: none;
+}
+
+/* Grouped sections */
+.filter-section {
+  
+  display: flex;
+  flex-direction: column;
+
+}
+
+/* Filter Button inside Panel */
+.slide-filter button.apply-btn {
+  background-color: #1e90ff;
+  color: #fff;
+  border: none;
+  padding: 10px 0;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.slide-filter button.apply-btn:hover {
+  background-color: #0c71d0;
+}
+
+/* Optional: add scrollbar style */
+.slide-filter::-webkit-scrollbar {
+  width: 6px;
+}
+.slide-filter::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}

@@ -1,0 +1,100 @@
+/* Page */
+.favourites-page {
+  padding: 20px;
+  background-color: #0d0d0d;
+  min-height: 100vh;
+}
+
+.page-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #26ff4f;
+}
+
+.empty-msg {
+  text-align: center;
+  margin-top: 50px;
+  color: #ccc;
+  font-size: 18px;
+}
+
+/* Grid like Used Cars */
+.favourites-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* Card */
+.car-card {
+  background-color: #111;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.car-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.8);
+}
+
+/* FIXED IMAGE SIZE ✅ */
+.car-card img {
+  width: 100%;
+  height: 180px;      /* Important fix */
+  object-fit: cover; /* Used car style crop */
+  display: block;
+}
+
+/* Card content */
+.car-card-content {
+  padding: 14px;
+  color: #ddd;
+}
+
+.car-card-content h3 {
+  margin: 0;
+  font-size: 17px;
+  color: #26ff4f;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.car-card-content p {
+  margin-top: 6px;
+  font-size: 15px;
+}
+
+/* Remove Button */
+.remove-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 0, 0, 0.85);
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.remove-btn:hover {
+  background: red;
+  transform: scale(1.05);
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .car-card img {
+    height: 150px;
+  }
+}

@@ -1,0 +1,132 @@
+/* ===== MAIN CONTAINER ===== */
+.seller-inbox-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  min-height: 80vh;
+  background: #f5f7fb;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* ===== HEADER ===== */
+.seller-inbox-container h2 {
+  width: 100%;
+  margin-bottom: 10px;
+  color: #1f2937;
+}
+
+/* ===== SHARED PANEL STYLE ===== */
+.car-list,
+.buyer-list,
+.chat-section {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== CAR LIST ===== */
+.car-list {
+  width: 220px;
+}
+
+.car-list h3 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #374151;
+}
+
+.car-list button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.car-list button:hover {
+  background: #e0f2fe;
+}
+
+.car-list button.active {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+/* ===== BUYER LIST ===== */
+.buyer-list {
+  width: 260px;
+}
+
+.buyer-list h3 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #374151;
+}
+
+.buyer-list button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.buyer-list button:hover {
+  background: #ecfeff;
+}
+
+.buyer-list button.active {
+  background: #059669;
+  color: white;
+  border-color: #059669;
+}
+
+/* ===== CHAT SECTION ===== */
+.chat-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-section h4 {
+  margin-bottom: 10px;
+  color: #111827;
+  font-weight: 600;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 6px;
+}
+
+/* ===== EMPTY STATES ===== */
+.seller-inbox-container p {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* ===== LOGIN WARNING ===== */
+.seller-inbox-container h3 {
+  color: #dc2626;
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .seller-inbox-container {
+    flex-direction: column;
+  }
+
+  .car-list,
+  .buyer-list {
+    width: 100%;
+  }
+}

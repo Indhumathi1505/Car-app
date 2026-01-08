@@ -1,0 +1,155 @@
+/* ===== GLOBAL ===== */
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== PAGE ===== */
+.profile-wrapper {
+  min-height: 100vh;
+  background: #6b5f5c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* ===== OUTER CONTAINER ===== */
+.profile-outer {
+  background: #f2f2f2;
+  padding: 30px;
+  border-radius: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* ===== COMMON CARD ===== */
+.profile-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* ===== LEFT CARD ===== */
+.left-card {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+.user-info {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.menu {
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+}
+
+.menu-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+.menu-item:hover {
+  background: #f4f4f4;
+}
+
+.menu-item.active {
+  background: #ece9ff;
+  font-weight: 600;
+}
+
+/* ===== RIGHT CARD ===== */
+.right-card {
+  width: 380px;
+  flex-grow: 1;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 12px;
+}
+
+.avatar-circle {
+  width: 40px;
+  height: 40px;
+  background: #ddd;
+  border-radius: 50%;
+}
+
+/* ===== DETAILS ===== */
+.details {
+  margin-top: 20px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.row input,
+.row select {
+  width: 60%;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.value {
+  color: #555;
+}
+
+.value.add {
+  color: #ff3f8f;
+  cursor: pointer;
+}
+
+/* ===== BUTTONS ===== */
+.save-btn,
+.edit-btn {
+  margin-top: 25px;
+  background: #3b6cff;
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.save-btn:hover,
+.edit-btn:hover {
+  background: #2f57d8;
+}
+
+.edit-btn {
+  margin-left: auto;
+  display: block;
+}
