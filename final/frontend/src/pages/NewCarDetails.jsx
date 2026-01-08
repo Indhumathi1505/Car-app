@@ -19,6 +19,60 @@ export default function NewCarDetails() {
   const [image, setImage] = useState("");
   const [loading, setLoading] = useState(true);
   const [isFavourite, setIsFavourite] = useState(false);
+  const styles = {
+  overlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    height: "100vh",
+    width: "100vw",
+    background: "rgba(0,0,0,0.6)",
+    backdropFilter: "blur(4px)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 9999,
+    padding: "15px"
+  },
+
+  modal: {
+    background: "#ffffff",
+    borderRadius: "16px",
+    maxWidth: "420px",
+    width: "100%",
+    padding: "24px",
+    boxShadow: "0 15px 40px rgba(0,0,0,0.25)",
+    animation: "fadeIn 0.3s ease-in-out",
+    textAlign: "center"
+  },
+
+  title: {
+    marginBottom: "12px",
+    fontSize: "22px",
+    color: "#2c5364"
+  },
+
+  info: {
+    textAlign: "left",
+    marginBottom: "20px",
+    fontSize: "15px",
+    lineHeight: "1.6",
+    color: "#333"
+  },
+
+  closeBtn: {
+    width: "100%",
+    padding: "12px",
+    borderRadius: "10px",
+    border: "none",
+    background: "linear-gradient(135deg, #2c5364, #0f2027)",
+    color: "#fff",
+    fontSize: "15px",
+    fontWeight: "bold",
+    cursor: "pointer"
+  }
+};
+
 
   // ===== SHOWROOM CONTACT =====
   const [showroom, setShowroom] = useState(null);
@@ -215,17 +269,24 @@ export default function NewCarDetails() {
       </div>
 
       {/* SHOWROOM MODAL */}
-      {showModal && showroom && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2>{showroom.name}</h2>
-            <p>Email: {showroom.email}</p>
-            <p>Phone: {showroom.phone}</p>
-            <p>Address: {showroom.address}</p>
-            <button onClick={() => setShowModal(false)}>Close</button>
-          </div>
-        </div>
-      )}
+     {showModal && showroom && (
+  <div style={styles.overlay}>
+    <div style={styles.modal}>
+      <h2 style={styles.title}>{showroom.name}</h2>
+
+      <div style={styles.info}>
+        <p><strong>Email:</strong> {showroom.email}</p>
+        <p><strong>Phone:</strong> {showroom.phone}</p>
+        <p><strong>Address:</strong> {showroom.address}</p>
+      </div>
+
+      <button style={styles.closeBtn} onClick={() => setShowModal(false)}>
+        Close
+      </button>
+    </div>
+  </div>
+)}
+
 
       {/* REVIEWS */}
       <div className="reviews-section">

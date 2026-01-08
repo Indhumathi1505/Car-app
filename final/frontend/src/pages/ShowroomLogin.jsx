@@ -26,7 +26,8 @@ export default function ShowroomLogin() {
       if (!res.ok) return alert(data.message || "Login failed");
 
       localStorage.setItem("showroomToken", data.token);
-      navigate("/sell-cars"); // redirect after login
+      localStorage.setItem("showroomEmail", email);
+      navigate("/sell/new"); // redirect after login
     } catch (err) {
       alert("Server error: " + err.message);
     } finally {
@@ -47,7 +48,8 @@ export default function ShowroomLogin() {
       if (!res.ok) return alert(data.message || "Google login failed");
 
       localStorage.setItem("showroomToken", data.token);
-      navigate("/sell-cars"); // redirect after Google login
+      localStorage.setItem("showroomEmail", user.email);
+      navigate("/sell/new"); // redirect after Google login
     } catch (err) {
       console.error(err);
       alert("Google Sign In Failed");

@@ -10,6 +10,9 @@ export default function ShowroomSignup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+const [address, setAddress] = useState("");
+
   const [loading, setLoading] = useState(false);
 
   const handleSignup = async () => {
@@ -20,7 +23,7 @@ export default function ShowroomSignup() {
       const res = await fetch("http://localhost:8080/api/showroom/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name, email, password,phone,address }),
       });
 
       const data = await res.json();
@@ -91,6 +94,9 @@ export default function ShowroomSignup() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <input placeholder="Phone" value={phone} onChange={e => setPhone(e.target.value)} />
+<input placeholder="Address" value={address} onChange={e => setAddress(e.target.value)} />
+
 
           <button className="auth-btn" onClick={handleSignup} disabled={loading}>
             {loading ? "Signing Up..." : "Sign Up"}

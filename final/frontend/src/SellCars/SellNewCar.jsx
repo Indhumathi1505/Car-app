@@ -6,9 +6,12 @@ import "./SellCar.css";
 
 export default function SellNewCar() {
   const navigate = useNavigate();
+  const sellerEmail = localStorage.getItem("showroomEmail");
+
 
   const [car, setCar] = useState({
     title: "",
+    brand: "",  
     bodyType: "",
     model: "",
     year: "",
@@ -51,6 +54,8 @@ export default function SellNewCar() {
   // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("SELLER EMAIL:", sellerEmail);
+
 
     if (!car.imageFile) {
       alert("Please upload car image");
@@ -60,6 +65,7 @@ export default function SellNewCar() {
     try {
       const formData = new FormData();
       formData.append("title", car.title);
+      formData.append("brand", car.brand);
       formData.append("bodyType", car.bodyType);
       formData.append("model", car.model);
       formData.append("year", Number(car.year));
@@ -72,14 +78,15 @@ export default function SellNewCar() {
       formData.append("exteriorColor", car.exteriorColor);
       car.features.forEach((f) => formData.append("features", f));
       formData.append("image", car.imageFile);
+      formData.append("sellerEmail", sellerEmail); 
       formData.append("sellerType", "SHOWROOM");
-      formData.append("status", "PENDING");
+     const res = await fetch("http://localhost:8080/api/cars/add", {
+  method: "POST",
+  body: formData,
+});
 
-      const res = await fetch("http://localhost:8080/api/cars/add", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${localStorage.getItem("showroomToken")}` },
-        body: formData,
-      });
+
+      
 
       if (!res.ok) throw new Error("Upload failed");
 
@@ -108,6 +115,14 @@ export default function SellNewCar() {
             <section>
               <h3>Car Details</h3>
               <input name="title" placeholder="Title" value={car.title} onChange={handleChange} required />
+              <input
+  name="brand"
+  placeholder="Brand"
+  value={car.brand}
+  onChange={handleChange}
+  required
+/>
+
               <input name="model" placeholder="Model" value={car.model} onChange={handleChange} required />
               <input name="year" type="number" placeholder="Year" value={car.year} onChange={handleChange} />
               <input name="bodyType" placeholder="Body Type" value={car.bodyType} onChange={handleChange} />

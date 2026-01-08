@@ -10,6 +10,7 @@ const SellerSignin = () => {
   const [captcha, setCaptcha] = useState("");
   const [inputCaptcha, setInputCaptcha] = useState("");
   const [error, setError] = useState("");
+  
 
   const generateCaptcha = () =>
     Math.floor(1000 + Math.random() * 9000).toString();
@@ -18,26 +19,30 @@ const SellerSignin = () => {
     setCaptcha(generateCaptcha());
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+ const handleSubmit = (e) => {
+  e.preventDefault();
 
-    if (!username || !password || !inputCaptcha) {
-      setError("All fields are required");
-      return;
-    }
+  if (!username || !password || !inputCaptcha) {
+    setError("All fields are required");
+    return;
+  }
 
-    if (inputCaptcha !== captcha) {
-      setError("Captcha is incorrect");
-      setCaptcha(generateCaptcha());
-      setInputCaptcha("");
-      return;
-    }
+  if (inputCaptcha !== captcha) {
+    setError("Captcha is incorrect");
+    setCaptcha(generateCaptcha());
+    setInputCaptcha("");
+    return;
+  }
 
-    setError("");
+  setError("");
 
-    // ✅ Navigate to SellRole page
-    navigate("/sell-role");
-  };
+  // ✅ SAVE EMAIL AFTER SUCCESS
+  localStorage.setItem("showroomEmail", username);
+
+  // ✅ Navigate
+  navigate("/sell-role");
+};
+
 
   return (
     <div className="main">

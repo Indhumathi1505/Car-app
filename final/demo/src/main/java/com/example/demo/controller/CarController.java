@@ -90,7 +90,10 @@ public ResponseEntity<Car> getCarById(@PathVariable String id) {
     ) throws IOException {
 
         // ✅ STRING ONLY (Base64)
-        car.setImage(Base64.getEncoder().encodeToString(image.getBytes()));
+      if (image != null && !image.isEmpty()) {
+    car.setImage(Base64.getEncoder().encodeToString(image.getBytes()));
+}
+
        car.setCertificate(certificate.getBytes());
 
         car.setApproved(false);
@@ -155,17 +158,15 @@ if (certificate != null && !certificate.isEmpty()) {
            
            
 
-            // 🔐 Showroom logic (UNCHANGED)
-            if ("SHOWROOM".equalsIgnoreCase(sellerType)) {
-                if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                    return ResponseEntity.status(401).body("Showroom login required");
-                }
-                String email = jwtUtil.extractUsername(authHeader.substring(7));
-                car.setShowroomEmail(email);
-                car.setApproved(false);
-            } else {
-                car.setApproved(false);
-            }
+            // 🔐 Showroom logic 
+            // ✅ SIMPLE & SAFE LOGIC
+if ("SHOWROOM".equalsIgnoreCase(sellerType)) {
+    car.setShowroomEmail(sellerEmail); // coming from frontend
+    car.setApproved(false);
+} else {
+    car.setApproved(false);
+}
+
 
             return ResponseEntity.ok(carRepository.save(car));
 
@@ -198,35 +199,16 @@ if (certificate != null && !certificate.isEmpty()) {
         }).orElse(ResponseEntity.notFound().build());
     }
     // ================= BRAND FILTER =================
-  
-    @GetMapping("/contact/{carId}")
+  @GetMapping("/contact/{carId}")
 public ResponseEntity<?> getShowroomContact(@PathVariable String carId) {
 
-    Optional<Car> carOpt = carRepository.findById(carId);
+    Car car = carRepository.findById(carId)
+            .orElseThrow(() -> new RuntimeException("Car not found"));
 
-    if (carOpt.isEmpty()) {
-        return ResponseEntity.notFound().build();
-    }
+    Showroom showroom = showroomRepository
+            .findByEmail(car.getShowroomEmail())
+            .orElseThrow(() -> new RuntimeException("Showroom not found"));
 
-    Car car = carOpt.get();
-
-    if (car.getShowroomEmail() == null) {
-        return ResponseEntity.badRequest()
-                .body(java.util.Collections.singletonMap(
-                        "message", "No showroom linked to this car"));
-    }
-
-    Optional<Showroom> showroomOpt =
-            showroomRepository.findByEmail(car.getShowroomEmail());
-
-    if (showroomOpt.isEmpty()) {
-        return ResponseEntity.notFound()
-                .build();
-    }
-
-    Showroom showroom = showroomOpt.get();
-
-    // 🚫 DO NOT SEND PASSWORD
     ShowroomDTO dto = new ShowroomDTO();
     dto.setName(showroom.getName());
     dto.setEmail(showroom.getEmail());
@@ -235,6 +217,7 @@ public ResponseEntity<?> getShowroomContact(@PathVariable String carId) {
 
     return ResponseEntity.ok(dto);
 }
+
 
 
 

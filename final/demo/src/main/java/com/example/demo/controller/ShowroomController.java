@@ -23,73 +23,94 @@ public class ShowroomController {
     // =========================
     // SIGNUP
     // =========================
-    @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody ShowroomDTO dto) {
+ @PostMapping("/signup")
+public ResponseEntity<?> signup(@RequestBody ShowroomDTO dto) {
 
-        // Check if email already exists
-        if (showroomRepository.findByEmail(dto.getEmail()).isPresent()) {
-            return ResponseEntity.badRequest().body(
-                    java.util.Collections.singletonMap("message", "Email already exists"));
-        }
-
-        // Hash the password
-        String hashedPassword = passwordEncoder.encode(dto.getPassword());
-
-        Showroom showroom = new Showroom();
-        showroom.setName(dto.getName());
-        showroom.setEmail(dto.getEmail());
-        showroom.setPassword(hashedPassword); // store hashed password
-
-        showroomRepository.save(showroom);
-
-        return ResponseEntity.ok(java.util.Collections.singletonMap("message", "Signup successful"));
+    if (dto.getEmail() == null || dto.getPassword() == null) {
+        return ResponseEntity.badRequest()
+                .body(java.util.Collections.singletonMap("message", "All fields required"));
     }
+
+    if (showroomRepository.findByEmail(dto.getEmail()).isPresent()) {
+        return ResponseEntity.badRequest()
+                .body(java.util.Collections.singletonMap("message", "Email already exists"));
+    }
+
+    Showroom showroom = new Showroom();
+    showroom.setName(dto.getName());
+    showroom.setEmail(dto.getEmail());
+    showroom.setPhone(dto.getPhone());
+    showroom.setAddress(dto.getAddress());
+    showroom.setPassword(passwordEncoder.encode(dto.getPassword()));
+
+    showroomRepository.save(showroom);
+
+    return ResponseEntity.ok(
+            java.util.Collections.singletonMap("message", "Signup successful"));
+}
+
 
     // =========================
     // LOGIN
     // =========================
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody ShowroomDTO dto) {
+// =========================
+// LOGIN
+// =========================
+@PostMapping("/login")
+public ResponseEntity<?> login(@RequestBody ShowroomDTO dto) {
 
-        Optional<Showroom> opt = showroomRepository.findByEmail(dto.getEmail());
-        if (opt.isEmpty()) {
-            return ResponseEntity.status(401).body(java.util.Collections.singletonMap("message", "Invalid email or password"));
-        }
-
-        Showroom showroom = opt.get();
-
-        // Check password
-        if (!passwordEncoder.matches(dto.getPassword(), showroom.getPassword())) {
-            return ResponseEntity.status(401).body(java.util.Collections.singletonMap("message", "Invalid email or password"));
-        }
-
-        // Normally, you generate JWT token here
-        String token = "dummy-token-" + showroom.getId(); // replace with real JWT if needed
-
-        return ResponseEntity.ok(java.util.Collections.singletonMap("token", token));
+    if (dto.getEmail() == null || dto.getPassword() == null) {
+        return ResponseEntity.badRequest()
+                .body(java.util.Collections.singletonMap("message", "All fields required"));
     }
+
+    Optional<Showroom> opt = showroomRepository.findByEmail(dto.getEmail());
+
+    if (opt.isEmpty()) {
+        return ResponseEntity.status(401)
+                .body(java.util.Collections.singletonMap("message", "Invalid email or password"));
+    }
+
+    Showroom showroom = opt.get();
+
+    // check password
+    if (!passwordEncoder.matches(dto.getPassword(), showroom.getPassword())) {
+        return ResponseEntity.status(401)
+                .body(java.util.Collections.singletonMap("message", "Invalid email or password"));
+    }
+
+    // success
+    String token = "dummy-token-" + showroom.getId();
+
+    return ResponseEntity.ok(
+            java.util.Collections.singletonMap("token", token));
+}
+
+
 
     // =========================
     // GOOGLE LOGIN
     // =========================
-    @PostMapping("/google-login")
-    public ResponseEntity<?> googleLogin(@RequestBody ShowroomDTO dto) {
+   @PostMapping("/google-login")
+public ResponseEntity<?> googleLogin(@RequestBody ShowroomDTO dto) {
 
-        Optional<Showroom> opt = showroomRepository.findByEmail(dto.getEmail());
-        Showroom showroom;
+    Optional<Showroom> opt = showroomRepository.findByEmail(dto.getEmail());
+    Showroom showroom;
 
-        if (opt.isEmpty()) {
-            // First-time Google login -> create showroom
-            showroom = new Showroom();
-            showroom.setName(dto.getName());
-            showroom.setEmail(dto.getEmail());
-            showroomRepository.save(showroom);
-        } else {
-            showroom = opt.get();
-        }
+    if (opt.isEmpty()) {
+        showroom = new Showroom();
+        showroom.setName(dto.getName());
+        showroom.setEmail(dto.getEmail());
 
-        // Return token
-        String token = "dummy-token-" + showroom.getId();
-        return ResponseEntity.ok(java.util.Collections.singletonMap("token", token));
+        // 🔴 VERY IMPORTANT
+        showroom.setPassword(passwordEncoder.encode("GOOGLE_USER"));
+
+        showroomRepository.save(showroom);
+    } else {
+        showroom = opt.get();
     }
+
+    String token = "dummy-token-" + showroom.getId();
+    return ResponseEntity.ok(java.util.Collections.singletonMap("token", token));
+}
 }
