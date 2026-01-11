@@ -6,44 +6,52 @@ import {jwtDecode} from "jwt-decode";
 import carImg from "../assets/car.jpg";
 import "./Signup.css";
 
+
+
+
 export default function Signup() {
   const navigate = useNavigate();
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // NORMAL SIGNUP
+  // Normal Signup
   const handleSignup = async () => {
-    if (!name || !email || !password) {
-      alert("Please fill all fields");
-      return;
-    }
+    if (!name || !email || !password) return alert("Please fill all fields");
 
     try {
-      const res = await fetch("http://localhost:8080/signup", {
+      const res = await fetch("http://localhost:8080/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ name, email, password }),
       });
 
       const data = await res.json();
       alert(data.message);
-
-      if (res.ok) navigate("/info");
+      if (res.ok) {
+         localStorage.setItem("user", JSON.stringify({ email, name }));
+        navigate("/login");
+      }
     } catch (err) {
       alert("Server error: " + err.message);
     }
   };
 
-  // GOOGLE SIGNUP
+  // Google Signup/Login
   const handleGoogleSuccess = async (response) => {
+    console.log("Google response:", response);
+
+    if (!response.credential) return alert("Google credential missing!");
+
     try {
       const user = jwtDecode(response.credential);
+      console.log("Decoded user:", user);
 
-      const res = await fetch("http://localhost:8080/google-login", {
+      const res = await fetch("http://localhost:8080/api/auth/google-login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           name: user.name,
           email: user.email,
@@ -52,75 +60,40 @@ export default function Signup() {
 
       const data = await res.json();
       alert(data.message);
-      navigate("/info");
+
+      if (res.ok) navigate("/"); // redirect after login
     } catch (err) {
       console.error(err);
       alert("Google Sign In Failed");
     }
   };
 
-  const handleGoogleError = () => {
-    alert("Google Sign In Failed");
-  };
-
   return (
     <div className="signup-container">
       <div className="signup-card">
-
-        {/* LEFT PANEL */}
         <div className="signup-left">
           <div className="semicircle"></div>
           <img src={carImg} alt="Car" className="car-image" />
-          <div className="left-text">
-            <h1>SIGNUP</h1>
-          </div>
+          <h1>SIGNUP</h1>
         </div>
 
-        {/* RIGHT PANEL */}
         <div className="signup-right">
           <h2>Create Account</h2>
-          <p className="subtitle">Register to explore our website</p>
-
           <div className="form-group">
-            <input
-              type="text"
-              placeholder="Username"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <input type="text" placeholder="Username" value={name} onChange={e => setName(e.target.value)} />
+            <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
+            <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
           </div>
+          <button className="signup-btn" onClick={handleSignup}>Signup</button>
 
-          <button className="signup-btn" onClick={handleSignup}>
-            Signup
-          </button>
+          <div className="divider"><span></span><p>or</p><span></span></div>
 
-          <div className="divider">
-            <span></span>
-            <p>or</p>
-            <span></span>
-          </div>
-
-          {/* GOOGLE LOGIN */}
-          <GoogleLogin
-            onSuccess={handleGoogleSuccess}
-            onError={handleGoogleError}
+          <GoogleLogin 
+            onSuccess={handleGoogleSuccess} 
+            onError={() => alert("Google Sign In Failed!")}
           />
 
-          <p className="login-text">
-            Already have an account? <Link to="/login">Login</Link>
-          </p>
+          <p>Already have an account? <Link to="/login">Login</Link></p>
         </div>
       </div>
     </div>

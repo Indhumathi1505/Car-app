@@ -37,6 +37,7 @@ const SellerSignin = () => {
       "http://localhost:8080/api/seller/verify",
       {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: username,

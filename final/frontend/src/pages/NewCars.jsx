@@ -66,7 +66,7 @@ export default function NewCars() {
      (NO BACKEND CHANGE)
   ======================== */
   useEffect(() => {
-    api.get("/new")
+    api.get("api/cars/new")
       .then((res) => {
         const favs = getFavourites();
 

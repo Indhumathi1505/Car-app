@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
+import java.util.Map;
 @RestController
 @RequestMapping("/api/reviews")
 @CrossOrigin(origins = "http://localhost:5173") // adjust if needed
@@ -24,6 +24,8 @@ public class ReviewsController {
 
     @Autowired
     private CarRepository carRepository;
+
+    private Optional<Car> carOpt;
 
     /**
      * GET all reviews for a specific car
@@ -53,38 +55,37 @@ public class ReviewsController {
      * POST add new review
      * URL: /api/reviews
      */
-    @PostMapping
-    public ResponseEntity<?> addReview(@RequestBody Review review) {
-        try {
-            // Validation
-            if (review.getCarId() == null || review.getCarId().isEmpty()) {
-                return ResponseEntity.badRequest().body("carId is required");
-            }
-
-            if (review.getUserEmail() == null || review.getUserEmail().isEmpty()) {
-                return ResponseEntity.badRequest().body("userEmail is required");
-            }
-
-            if (review.getRating() < 1 || review.getRating() > 5) {
-                return ResponseEntity.badRequest().body("rating must be between 1 and 5");
-            }
-
-            // Check if car exists
-            Optional<Car> carOpt = carRepository.findById(review.getCarId());
-            if (!carOpt.isPresent()) {
-                return ResponseEntity
-                        .status(HttpStatus.BAD_REQUEST)
-                        .body("Car not found with id: " + review.getCarId());
-            }
-
-            Review savedReview = reviewRepository.save(review);
-            return ResponseEntity.ok(savedReview);
-
-        } catch (Exception e) {
-            e.printStackTrace(); // VERY IMPORTANT for debugging
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to submit review");
+   @PostMapping
+public ResponseEntity<?> addReview(@RequestBody Review review) {
+    try {
+        // 1. Validation
+        if (review.getCarId() == null || review.getCarId().isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("message", "carId is required"));
         }
+        if (review.getUserEmail() == null || review.getUserEmail().isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("message", "userEmail is required"));
+        }
+        if (review.getRating() < 1 || review.getRating() > 5) {
+            return ResponseEntity.badRequest().body(Map.of("message", "rating must be between 1 and 5"));
+        }
+
+        // 2. Look up the car (local variable, not class field)
+        Optional<Car> carExists = carRepository.findById(review.getCarId());
+        if (!carExists.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("message", "Car not found with id: " + review.getCarId()));
+        }
+
+        // 3. Save the review
+        Review savedReview = reviewRepository.save(review);
+
+        // 4. Return SUCCESS (201 Created)
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedReview);
+
+    } catch (Exception e) {
+        e.printStackTrace(); 
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("message", "Internal Server Error: " + e.getMessage()));
     }
+}
 }

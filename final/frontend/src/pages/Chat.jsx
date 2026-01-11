@@ -19,6 +19,12 @@ export default function Chat({
   // ================= BASIC SAFETY =================
   const loggedUser = JSON.parse(localStorage.getItem("user"));
 const username = loggedUser?.email;
+const finalBuyerEmail =
+  role === "BUYER" ? username : receiver;
+
+const finalSellerEmail =
+  role === "SELLER" ? username : receiver;
+
 
   
 
@@ -34,80 +40,104 @@ const username = loggedUser?.email;
   // 1️⃣ LOAD CHAT HISTORY (VERY IMPORTANT FOR REFRESH)
   // =================================================
   useEffect(() => {
-    if (!carId || !username ||!receiver ) return;
+  if (!carId || !username || !receiver) return;
 
-    // 🔵 BUYER loads only his chat
-    if (role === "BUYER") {
-  axios.get("http://localhost:8080/api/chat/buyer", {
-    params: {
-      carId,
-      sellerEmail: receiver,   // ✅ seller email
-      buyerEmail: username     // ✅ buyer email
-    }
-  })
-  .then(res => setMessages(res.data))
-  .catch(err => console.error("Load buyer chat error", err.response || err));
-}
+  // BUYER
+  if (role === "BUYER") {
+    axios.get("http://localhost:8080/api/chat/buyer", {
+      params: {
+        carId,
+        sellerEmail: receiver,
+        buyerEmail: username
+      },
+      withCredentials: true
+    })
+    .then(res => setMessages(res.data))
+    .catch(err => console.error("Load buyer chat error", err));
+  }
 
-    // 🟢 SELLER loads full car chat (filtered later)
-  if (role === "SELLER" && receiver) {
-  axios.get("http://localhost:8080/api/chat/buyer", {
-    params: {
-      carId,
-      sellerEmail: username,
-      buyerEmail: receiver
-    }
-  })
-  .then(res => setMessages(res.data))
-  .catch(err => console.error(err));
-}
-}, [carId, username, receiver,role]);
+  // SELLER
+  if (role === "SELLER") {
+    axios.get("http://localhost:8080/api/chat/buyer", {
+      params: {
+        carId,
+        sellerEmail: username,
+        buyerEmail: receiver
+      },
+      withCredentials: true
+    })
+    .then(res => setMessages(res.data))
+    .catch(err => console.error("Load seller chat error", err));
+  }
+
+}, [carId, username, receiver, role]);
+
 
 
 
   // =====================================
   // 2️⃣ WEBSOCKET CONNECTION (REAL-TIME)
   // =====================================
-  useEffect(() => {
-    if (!carId || !username ||!receiver) return;
+ // =====================================
+// 2️⃣ WEBSOCKET CONNECTION (REAL-TIME) - FIXED
+// =====================================
+useEffect(() => {
+  if (!carId || !username || !receiver) return;
 
-    const client = new Client({
-      webSocketFactory: () => new SockJS(SOCKET_URL),
-      reconnectDelay: 5000,
-      debug: () => {}
-    });
+  const client = new Client({
+    // ✅ Pass withCredentials for session cookies
+    webSocketFactory: () =>
+      new SockJS(SOCKET_URL, null, { withCredentials: true }),
+    reconnectDelay: 5000,
+    debug: (str) => {
+      console.log("STOMP DEBUG:", str);
+    },
+    connectHeaders: {
+      "X-Requested-With": "XMLHttpRequest",
+    },
+  });
 
-    client.onConnect = () => {
-      setConnected(true);
+  client.onConnect = () => {
+    console.log("✅ Connected to WebSocket");
+    setConnected(true);
 
-      // 🔥 EACH USER HAS OWN TOPIC
-const safeEmail = username.replace(/\./g, "_");
-client.subscribe(
-  `/topic/chat/${carId}/${safeEmail}`,
-  msg => {
-    console.log("📩 Message received on topic:", `/topic/chat/${carId}/${safeEmail}`);
-    console.log("📩 Raw message:", msg.body);
+    // 🔥 EACH USER HAS OWN TOPIC
+    const safeEmail = username.replace(/\./g, "_");
+    client.subscribe(
+      `/topic/chat/${carId}/${safeEmail}`,
+      (msg) => {
+        console.log(
+          "📩 Message received on topic:",
+          `/topic/chat/${carId}/${safeEmail}`
+        );
+        const body = JSON.parse(msg.body);
+        setMessages((prev) => [...prev, body]);
+      }
+    );
+  };
 
-    const body = JSON.parse(msg.body);
-    setMessages(prev => [...prev, body]);
-  }
-);
+  client.onDisconnect = () => {
+    console.log("❌ Disconnected from WebSocket");
+    setConnected(false);
+  };
 
+  client.onStompError = (frame) => {
+    console.error("❌ STOMP ERROR:", frame.headers, frame.body);
+  };
 
+  client.onWebSocketError = (evt) => {
+    console.error("❌ WebSocket ERROR:", evt);
+  };
 
-    };
+  client.activate();
+  clientRef.current = client;
 
+  return () => {
+    clientRef.current?.deactivate();
+    clientRef.current = null;
+  };
+}, [carId, username, receiver]);
 
-    client.onDisconnect = () => setConnected(false);
-
-    client.activate();
-    clientRef.current = client;
-
-    return () => {
-      clientRef.current?.deactivate();
-      clientRef.current = null;
-    };
-  }, [carId, username,receiver]);
 
   // ================= AUTO SCROLL =================
   useEffect(() => {
@@ -121,12 +151,13 @@ client.subscribe(
   if (!connected || !text.trim()) return;
 
   const payload = {
-    carId,
-    message: text,
-    sender: username,
-    buyerEmail,
-    sellerEmail
-  };
+  carId,
+  message: text,
+  sender: username,
+  buyerEmail: finalBuyerEmail,
+  sellerEmail: finalSellerEmail
+};
+
 
   console.log("📤 Sending payload:", payload);
 
@@ -144,12 +175,7 @@ client.subscribe(
 
 
 
-  // ================= FILTER DISPLAY =================
-  /*const displayedMessages = messages.filter(
-  m =>
-    (m.buyerEmail === username && m.sellerEmail === receiver) ||
-    (m.buyerEmail === receiver && m.sellerEmail === username)
-);*/
+ 
 const displayedMessages = messages.filter(
   m =>
     m.carId === carId &&

@@ -1,22 +1,16 @@
-// Polyfill for Vite/modern bundlers
-if (typeof global === "undefined") {
-  window.global = window;
-}
-import { StrictMode } from "react";
+import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import App from "./App";
 
-import "./index.css";
-import App from "./App.jsx";
+const clientId = "145757041336-in5ge737va14q5idlmg1mublaah22jlp.apps.googleusercontent.com"; // <-- Replace with your Google client ID
 
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <GoogleOAuthProvider clientId="145757041336-in5ge737va14q5idlmg1mublaah22jlp.apps.googleusercontent.com">
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </GoogleOAuthProvider>
-  </StrictMode>
+const root = createRoot(document.getElementById("root"));
+root.render(
+  <GoogleOAuthProvider clientId={clientId}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </GoogleOAuthProvider>
 );
-

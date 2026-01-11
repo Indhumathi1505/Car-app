@@ -47,7 +47,7 @@ const buyerName = loggedUser?.name;
   // ======== FETCH REVIEWS ========
   const fetchReviews = async () => {
     try {
-      const res = await axios.get(`http://localhost:8080/api/reviews/car/${id}`);
+      const res = await axios.get(`http://localhost:8080/api/reviews/car/${id}`, { withCredentials: true });
       setReviews(res.data);
     } catch (err) {
       console.error("Failed to fetch reviews:", err.response || err);
@@ -93,7 +93,7 @@ const buyerName = loggedUser?.name;
     };
 
     try {
-      await axios.post("http://localhost:8080/api/reviews", payload);
+      await axios.post("http://localhost:8080/api/reviews", payload,{ withCredentials: true });
       setNewReview({ rating: 5, comment: "" });
       fetchReviews(); // refresh reviews
       alert("Review submitted successfully!");
