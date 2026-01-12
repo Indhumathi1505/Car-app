@@ -21,6 +21,8 @@ public interface CarRepository extends MongoRepository<Car, String> {
      // ✅ BRAND FILTER (ONLY APPROVED CARS)
 List<Car> findByBrandIgnoreCaseAndApprovedTrue(String brand);
 List<Car> findByApprovedTrueAndConditionIn(List<String> conditions);
+List<Car> findByConditionAndApprovedTrue(String condition);
+
 
 
 }

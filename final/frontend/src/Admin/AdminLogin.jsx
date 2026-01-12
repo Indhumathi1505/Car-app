@@ -11,6 +11,9 @@ export default function AdminLogin() {
     e.preventDefault();
 
     if (username === "cartrizo" && password === "123") {
+        localStorage.setItem("token", "ADMIN_DUMMY_TOKEN");
+  localStorage.setItem("role", "ADMIN");
+
       navigate("/admin/pending"); // ✅ redirect here
     } else {
       alert("Invalid admin credentials");

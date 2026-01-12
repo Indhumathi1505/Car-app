@@ -58,55 +58,62 @@ export default function SellUsedCar() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!car.imageFile) {
-      alert("Please upload car image");
-      return;
-    }
+  if (!car.imageFile) {
+    alert("Please upload car image");
+    return;
+  }
 
-    if (!car.certificateFile) {
-      alert("RC / Insurance is mandatory for used cars");
-      return;
-    }
+  if (!car.certificateFile) {
+    alert("RC / Insurance is mandatory for used cars");
+    return;
+  }
 
-    try {
-      const formData = new FormData();
-      formData.append("title", car.title);
-      formData.append("brand", car.brand);
-      formData.append("bodyType", car.bodyType);
-      formData.append("model", car.model);
-      formData.append("year", Number(car.year));
-      formData.append("fuelType", car.fuelType);
-      formData.append("price", Number(car.price));
-      formData.append("mileage", Number(car.mileage) || 0);
-      formData.append("engineCapacity", Number(car.engineCapacity) || 0);
-      formData.append("description", car.description);
-      formData.append("condition", car.condition);
-      formData.append("exteriorColor", car.exteriorColor);
-      car.features.forEach((f) => formData.append("features", f));
-      formData.append("image", car.imageFile);
-      formData.append("certificate", car.certificateFile);
-      formData.append("sellerType", "USER");
-      formData.append("sellerId", localStorage.getItem("sellerId"));
-      formData.append("status", "PENDING");
-      formData.append("sellerEmail", localStorage.getItem("sellerName"));
+  try {
+    const formData = new FormData();
+    formData.append("title", car.title);
+    formData.append("brand", car.brand);
+    formData.append("bodyType", car.bodyType);
+    formData.append("model", car.model);
+    formData.append("year", Number(car.year));
+    formData.append("fuelType", car.fuelType);
+    formData.append("price", Number(car.price));
+    formData.append("mileage", Number(car.mileage) || 0);
+    formData.append("engineCapacity", Number(car.engineCapacity) || 0);
+    formData.append("description", car.description);
+    formData.append("condition", car.condition);
+    formData.append("exteriorColor", car.exteriorColor);
+    car.features.forEach((f) => formData.append("features", f));
+    formData.append("image", car.imageFile);
+    formData.append("certificate", car.certificateFile);
+    formData.append("sellerType", "USER");
 
+    const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:8080/api/cars/add", {
-        method: "POST",
-        body: formData,
-      });
+if (!token) {
+  alert("You must be logged in to sell a car");
+  return;
+}
 
-      if (!res.ok) throw new Error("Upload failed");
+const res = await fetch("http://localhost:8080/api/cars/add", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${token}`
+  },
+  body: formData
+});
 
-      alert("Car sent for admin approval");
-      navigate("/");
-    } catch (err) {
-      console.error(err);
-      alert("Upload failed");
-    }
-  };
+    if (!res.ok) throw new Error("Upload failed");
+
+    alert("Car sent for admin approval");
+    navigate("/");
+  } catch (err) {
+    console.error(err);
+    alert("Upload failed");
+  }
+};
+
 
   return (
     <div className="sell-layout">

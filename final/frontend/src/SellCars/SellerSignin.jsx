@@ -45,22 +45,29 @@ const SellerSignin = () => {
         })
       }
     );
-
-    if (!response.ok) {
-      throw new Error("Invalid credentials");
-    }
-
     const data = await response.json();
 
-    // ✅ userId becomes sellerId
-   localStorage.setItem("user", JSON.stringify({
-  email: username,        // seller email
-  name: username,         // display name (optional)
+if (!data.token) {
+  throw new Error("Token not received from server");
+}
+
+// ✅ Save JWT
+localStorage.setItem("token", data.token);
+
+// ✅ Save user info
+localStorage.setItem("user", JSON.stringify({
+  email: username,
+  name: username,
   role: "SELLER"
 }));
 
+// ❌ remove old dummy token if exists
+localStorage.removeItem("showroomToken");
 
-    navigate("/sell/used");
+navigate("/sell/used");
+
+
+   
 
   } catch (err) {
     setError(err.message);

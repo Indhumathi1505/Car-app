@@ -38,7 +38,8 @@ public ResponseEntity<?> signup(@RequestBody ShowroomDTO dto) {
 
     Showroom showroom = new Showroom();
     showroom.setName(dto.getName());
-    showroom.setEmail(dto.getEmail());
+    showroom.setEmail(dto.getEmail().trim().toLowerCase());
+
     showroom.setPhone(dto.getPhone());
     showroom.setAddress(dto.getAddress());
     showroom.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -64,7 +65,9 @@ public ResponseEntity<?> login(@RequestBody ShowroomDTO dto) {
                 .body(java.util.Collections.singletonMap("message", "All fields required"));
     }
 
-    Optional<Showroom> opt = showroomRepository.findByEmail(dto.getEmail());
+   Optional<Showroom> opt =
+    showroomRepository.findByEmail(dto.getEmail().trim().toLowerCase());
+
 
     if (opt.isEmpty()) {
         return ResponseEntity.status(401)
@@ -80,7 +83,7 @@ public ResponseEntity<?> login(@RequestBody ShowroomDTO dto) {
     }
 
     // success
-    String token = "dummy-token-" + showroom.getId();
+    String token = "dummy-token-" + showroom.getEmail();
 
     return ResponseEntity.ok(
             java.util.Collections.singletonMap("token", token));
@@ -94,13 +97,15 @@ public ResponseEntity<?> login(@RequestBody ShowroomDTO dto) {
    @PostMapping("/google-login")
 public ResponseEntity<?> googleLogin(@RequestBody ShowroomDTO dto) {
 
-    Optional<Showroom> opt = showroomRepository.findByEmail(dto.getEmail());
+    Optional<Showroom> opt =
+    showroomRepository.findByEmail(dto.getEmail().trim().toLowerCase());
     Showroom showroom;
 
     if (opt.isEmpty()) {
         showroom = new Showroom();
         showroom.setName(dto.getName());
-        showroom.setEmail(dto.getEmail());
+        
+showroom.setEmail(dto.getEmail().trim().toLowerCase());
 
         // 🔴 VERY IMPORTANT
         showroom.setPassword(passwordEncoder.encode("GOOGLE_USER"));
@@ -110,7 +115,7 @@ public ResponseEntity<?> googleLogin(@RequestBody ShowroomDTO dto) {
         showroom = opt.get();
     }
 
-    String token = "dummy-token-" + showroom.getId();
+    String token = "dummy-token-" + showroom.getEmail();
     return ResponseEntity.ok(java.util.Collections.singletonMap("token", token));
 }
 }

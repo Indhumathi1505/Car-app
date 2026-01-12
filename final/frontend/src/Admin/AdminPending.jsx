@@ -11,21 +11,54 @@ export default function AdminPendingCars() {
   }, []);
 
   const loadCars = async () => {
-    const res = await axios.get("http://localhost:8080/api/cars/pending");
-    setCars(res.data);
-  };
+  const token = localStorage.getItem("token");
+
+  const res = await axios.get(
+    "http://localhost:8080/api/admin/cars/pending",
+    {
+      headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    }
+  );
+
+  setCars(res.data);
+};
+
 
   const approveCar = async (id) => {
-    await axios.put(`http://localhost:8080/api/cars/approve/${id}`);
-    setSelectedCar(null);
-    loadCars();
-  };
+  const token = localStorage.getItem("token");
 
-  const rejectCar = async (id) => {
-    await axios.put(`http://localhost:8080/api/cars/reject/${id}`);
-    setSelectedCar(null);
-    loadCars();
-  };
+  await axios.put(
+    `http://localhost:8080/api/admin/cars/approve/${id}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+
+  setSelectedCar(null);
+  loadCars();
+};
+
+const rejectCar = async (id) => {
+  const token = localStorage.getItem("token");
+
+  await axios.delete(
+    `http://localhost:8080/api/admin/cars/reject/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+
+  setSelectedCar(null);
+  loadCars();
+};
+
 
   // ✅ Get certificate safely
   const getCertificate = (car) => {

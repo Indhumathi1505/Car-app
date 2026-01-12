@@ -285,14 +285,14 @@ const buyerName = loggedUser?.name;
         <div className="review-list">
           {reviews.length ? (
             reviews.map(r => (
-              <div key={r._id} className="review-card">
-                <strong>{r.userEmail}</strong>
-                <div className="review-stars">
-                  {"★".repeat(r.rating)}
-                </div>
-                <p>{r.comment}</p>
-              </div>
-            ))
+  <div key={r._id} className="review-card">
+    <strong>{r.userEmail}</strong>
+    <div className="review-stars">
+      {"★".repeat(r.rating)}
+    </div>
+    <p>{r.comment}</p>
+  </div>
+))
           ) : (
             <p>No reviews yet</p>
           )}

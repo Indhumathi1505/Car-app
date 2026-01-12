@@ -14,6 +14,10 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [captcha, setCaptcha] = useState("");
   const [inputCaptcha, setInputCaptcha] = useState("");
+  useEffect(() => {
+  localStorage.removeItem("user");
+}, []);
+
 
   // Generate CAPTCHA
   const generateCaptcha = () => {
@@ -47,13 +51,19 @@ export default function Login() {
       });
 
       const data = await res.json();
-      if (res.ok) 
-    { 
-      alert("Login successful ✅");
-      localStorage.setItem("user", JSON.stringify({ email, name: data.name }));
-      navigate("/");
-    }
-    return alert(data.message || "Invalid email or password");
+      if (res.ok) { 
+  alert("Login successful ✅");
+  localStorage.setItem("user", JSON.stringify({
+    email,
+    name: data.name,
+    role: data.role
+  }));
+  navigate("/");
+  return; // ✅ STOP HERE
+}
+
+alert(data.message || "Invalid email or password");
+
 
      
     } catch (err) {
@@ -81,10 +91,11 @@ export default function Login() {
      if (res.ok) {
   alert("Login successful");
   localStorage.setItem("user", JSON.stringify({
-    email,
-    name: data.name,
-    role: "BUYER"
-  }));
+  email: user.email,
+  name: user.name,
+  role: "BUYER"
+}));
+
   navigate("/");
   return;
 }

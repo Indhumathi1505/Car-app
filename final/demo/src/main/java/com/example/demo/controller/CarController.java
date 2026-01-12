@@ -21,17 +21,24 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/cars")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+    "http://localhost:5173",
+    "http://localhost:5174"
+})
+
 public class CarController {
 
- private final CarRepository carRepository;
+    private final CarRepository carRepository;
     private final ShowroomRepository showroomRepository;
+    private final JwtUtil jwtUtil;
 
    
      public CarController(CarRepository carRepository,
-                         ShowroomRepository showroomRepository) {
+                         ShowroomRepository showroomRepository,
+                         JwtUtil jwtUtil) {
         this.carRepository = carRepository;
         this.showroomRepository = showroomRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     // 🔹 Show only approved cars
@@ -41,10 +48,16 @@ public class CarController {
     }
 
     // Get all new cars
-    @GetMapping("/new")
-    public List<Car> getNewCars() {
-        return carRepository.findByCondition("New");
-    }
+   @GetMapping("/new")
+public List<Car> getNewCars() {
+    return carRepository.findByConditionAndApprovedTrue("New");
+}
+
+@GetMapping("/used")
+public List<Car> getUsedCars() {
+    return carRepository.findByConditionAndApprovedTrue("Used");
+}
+
     @GetMapping("/recommended")
 public List<Car> getRecommendedCars() {
 
@@ -61,22 +74,21 @@ public List<Car> getRecommendedCars() {
 }
 
     // Get all used cars
-    @GetMapping("/used")
-    public List<Car> getUsedCars() {
-        return carRepository.findByCondition("Used");
-    }
+   
     // ================= BRAND FILTER =================
 @GetMapping("/brand/{brand}")
 public List<Car> getCarsByBrand(@PathVariable String brand) {
     return carRepository.findByBrandIgnoreCaseAndApprovedTrue(brand);
 }
 
-   @GetMapping("/{id}")
+@GetMapping("/{id}")
 public ResponseEntity<Car> getCarById(@PathVariable String id) {
     return carRepository.findById(id)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+        .filter(Car::getApproved)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
 }
+
 
 
    
@@ -103,29 +115,126 @@ public ResponseEntity<Car> getCarById(@PathVariable String id) {
     }
 
     // ================= MAIN ADD CAR API =================
-    @PostMapping(value = "/add", consumes = "multipart/form-data")
-    public ResponseEntity<?> addCar(
-            @RequestParam String title,
-            @RequestParam String brand,  
-            @RequestParam String bodyType,
-            @RequestParam String model,
-            @RequestParam Integer year,
-            @RequestParam String fuelType,
-            @RequestParam Integer mileage,
-            @RequestParam Integer engineCapacity,
-            @RequestParam Double price,
-            @RequestParam String description,
-            @RequestParam String condition,
-            @RequestParam String exteriorColor,
-             @RequestParam String sellerType,
-           @RequestParam String sellerEmail,
-            @RequestParam(required = false) List<String> features,
-            @RequestParam MultipartFile image,
-            @RequestParam(required = false) MultipartFile certificate,
-            @RequestHeader(value = "Authorization", required = false) String authHeader
-    ) {
+  /*
+@PostMapping(value = "/add", consumes = "multipart/form-data")
+public ResponseEntity<?> addCar(
+        @RequestHeader(value = "Authorization", required = false) String authHeader,
 
-        try {
+        @RequestParam String title,
+        @RequestParam String brand,
+        @RequestParam String bodyType,
+        @RequestParam String model,
+        @RequestParam Integer year,
+        @RequestParam String fuelType,
+        @RequestParam Integer mileage,
+        @RequestParam Integer engineCapacity,
+        @RequestParam Double price,
+        @RequestParam String description,
+        @RequestParam String condition,
+        @RequestParam String exteriorColor,
+        @RequestParam String sellerType,
+        @RequestParam(required = false) List<String> features,
+        @RequestParam MultipartFile image,
+        @RequestParam(required = false) MultipartFile certificate
+) {
+    try {
+        // 🔐 JWT validation
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(401).body("Missing token");
+        }
+
+        String token = authHeader.substring(7);
+       // String sellerEmail = jwtUtil.extractUsername(token);
+      String sellerEmail = token.replace("dummy-token-", "").trim().toLowerCase();
+       Optional<Showroom> showroomOpt =
+        showroomRepository.findByEmail(sellerEmail);
+
+if (showroomOpt.isEmpty()) {
+    System.out.println("❌ SHOWROOM NOT FOUND FOR EMAIL: " + sellerEmail);
+    return ResponseEntity.status(404).body("Showroom not found for this seller");
+}
+
+
+
+
+Showroom showroom = showroomOpt.get();
+System.out.println("✅ SHOWROOM ID: " + showroom.getId());
+
+        Car car = new Car();
+        
+        car.setTitle(title);
+        car.setBrand(brand);
+        car.setBodyType(bodyType);
+        car.setModel(model);
+        car.setYear(year);
+        car.setFuelType(fuelType);
+        car.setMileage(mileage);
+        car.setEngineCapacity(engineCapacity);
+        car.setPrice(price);
+        car.setDescription(description);
+        car.setCondition(condition);
+        car.setExteriorColor(exteriorColor);
+        car.setSellerType(sellerType);
+        car.setSellerEmail(sellerEmail);
+        car.setApproved(false);
+        car.setShowroomId(showroom.getId());
+        car.setShowroomEmail(showroom.getEmail());
+
+
+        if (features != null) {
+            car.setFeatures(features);
+        }
+
+        // image
+        car.setImage(Base64.getEncoder().encodeToString(image.getBytes()));
+
+        // certificate
+        if (certificate != null && !certificate.isEmpty()) {
+            car.setCertificate(certificate.getBytes());
+        }
+
+        return ResponseEntity.ok(carRepository.save(car));
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.status(500).body("Upload failed");
+    }
+}
+*/
+@PostMapping(value = "/add", consumes = "multipart/form-data")
+public ResponseEntity<?> addCar(
+        @RequestHeader(value = "Authorization", required = false) String authHeader,
+
+        @RequestParam String title,
+        @RequestParam String brand,
+        @RequestParam String bodyType,
+        @RequestParam String model,
+        @RequestParam Integer year,
+        @RequestParam String fuelType,
+        @RequestParam Integer mileage,
+        @RequestParam Integer engineCapacity,
+        @RequestParam Double price,
+        @RequestParam String description,
+        @RequestParam String condition,
+        @RequestParam String exteriorColor,
+        @RequestParam String sellerType,   // 🔥 USER or SHOWROOM
+        @RequestParam(required = false) List<String> features,
+        @RequestParam MultipartFile image,
+        @RequestParam(required = false) MultipartFile certificate
+) {
+    try {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(401).body("Missing token");
+        }
+
+        String token = authHeader.substring(7);
+        String sellerEmail;
+
+        // ========= USED CAR (USER) =========
+        if (sellerType.equalsIgnoreCase("USER")) {
+
+            sellerEmail = jwtUtil.extractUsername(token);
+
             Car car = new Car();
             car.setTitle(title);
             car.setBrand(brand);
@@ -137,77 +246,92 @@ public ResponseEntity<Car> getCarById(@PathVariable String id) {
             car.setEngineCapacity(engineCapacity);
             car.setPrice(price);
             car.setDescription(description);
-            car.setCondition(condition);
+            car.setCondition("Used");
             car.setExteriorColor(exteriorColor);
-            car.setSellerType(sellerType);
-              car.setSellerEmail(sellerEmail);
+            car.setSellerType("USER");
+            car.setSellerEmail(sellerEmail);
+            car.setApproved(false);
 
-            if (features != null) {
-                car.setFeatures(features);
-            }
-
-            // ✅ STRING ONLY (Base64)
             car.setImage(Base64.getEncoder().encodeToString(image.getBytes()));
 
-           
+            if (certificate != null && !certificate.isEmpty()) {
+                car.setCertificate(certificate.getBytes());
+            }
 
-if (certificate != null && !certificate.isEmpty()) {
-    car.setCertificate(certificate.getBytes());
-}
-
-           
-           
-
-            // 🔐 Showroom logic 
-            // ✅ SIMPLE & SAFE LOGIC
-if ("SHOWROOM".equalsIgnoreCase(sellerType)) {
-    car.setShowroomEmail(sellerEmail); // coming from frontend
-    car.setApproved(false);
-} else {
-    car.setApproved(false);
-}
-
+            car.setFeatures(features);
 
             return ResponseEntity.ok(carRepository.save(car));
-
-        } catch (IOException e) {
-            return ResponseEntity.status(500).body("File upload failed");
         }
+
+        // ========= NEW CAR (SHOWROOM) =========
+        else if (sellerType.equalsIgnoreCase("SHOWROOM")) {
+
+            sellerEmail = token.replace("dummy-token-", "").trim().toLowerCase();
+
+            Showroom showroom = showroomRepository.findByEmail(sellerEmail)
+                    .orElseThrow(() -> new RuntimeException("Showroom not found"));
+
+            Car car = new Car();
+            car.setTitle(title);
+            car.setBrand(brand);
+            car.setBodyType(bodyType);
+            car.setModel(model);
+            car.setYear(year);
+            car.setFuelType(fuelType);
+            car.setMileage(mileage);
+            car.setEngineCapacity(engineCapacity);
+            car.setPrice(price);
+            car.setDescription(description);
+            car.setCondition("New");
+            car.setExteriorColor(exteriorColor);
+            car.setSellerType("SHOWROOM");
+            car.setSellerEmail(sellerEmail);
+            car.setShowroomId(showroom.getId());
+            car.setShowroomEmail(showroom.getEmail());
+            car.setApproved(false);
+
+            car.setImage(Base64.getEncoder().encodeToString(image.getBytes()));
+            car.setFeatures(features);
+
+            return ResponseEntity.ok(carRepository.save(car));
+        }
+
+        return ResponseEntity.badRequest().body("Invalid seller type");
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.status(500).body("Upload failed");
     }
+}
+
 
     // ================= ADMIN ENDPOINTS =================
 
-    @GetMapping("/pending")
-    public List<Car> getPendingCars() {
-        return carRepository.findByApprovedFalse();
-    }
+    
 
-    @PutMapping("/approve/{id}")
-    public ResponseEntity<?> approveCar(@PathVariable String id) {
-        return carRepository.findById(id).map(car -> {
-            car.setApproved(true);
-            carRepository.save(car);
-            return ResponseEntity.ok(car);
-        }).orElse(ResponseEntity.notFound().build());
-    }
-
-    @PutMapping("/reject/{id}")
-    public ResponseEntity<?> rejectCar(@PathVariable String id) {
-        return carRepository.findById(id).map(car -> {
-            carRepository.delete(car);
-            return ResponseEntity.ok("Car rejected and deleted");
-        }).orElse(ResponseEntity.notFound().build());
-    }
     // ================= BRAND FILTER =================
-  @GetMapping("/contact/{carId}")
+ @GetMapping("/contact/{carId}")
 public ResponseEntity<?> getShowroomContact(@PathVariable String carId) {
 
-    Car car = carRepository.findById(carId)
-            .orElseThrow(() -> new RuntimeException("Car not found"));
+    Optional<Car> carOpt = carRepository.findById(carId);
+    if (carOpt.isEmpty()) {
+        return ResponseEntity.status(404).body("Car not found");
+    }
 
-    Showroom showroom = showroomRepository
-            .findByEmail(car.getShowroomEmail())
-            .orElseThrow(() -> new RuntimeException("Showroom not found"));
+    Car car = carOpt.get();
+
+    if (car.getShowroomId() == null) {
+        return ResponseEntity.status(404).body("Showroom ID missing in car");
+    }
+
+    Optional<Showroom> showroomOpt =
+            showroomRepository.findById(car.getShowroomId());
+
+    if (showroomOpt.isEmpty()) {
+        return ResponseEntity.status(404).body("Showroom not found");
+    }
+
+    Showroom showroom = showroomOpt.get();
 
     ShowroomDTO dto = new ShowroomDTO();
     dto.setName(showroom.getName());
@@ -217,8 +341,4 @@ public ResponseEntity<?> getShowroomContact(@PathVariable String carId) {
 
     return ResponseEntity.ok(dto);
 }
-
-
-
-
 }

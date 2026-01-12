@@ -4,17 +4,20 @@ import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Component
 public class JwtUtil {
 
     private String SECRET_KEY = "your_secret_key";
 
-    public String generateToken(String username) {
+      public String generateToken(String email, String role) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(email)
+                .claim("role", role)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000*60*60*10)) // 10 hours
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }
@@ -43,4 +46,16 @@ public class JwtUtil {
                 .getBody()
                 .getExpiration();
     }
+
+    public Claims extractAllClaims(String token) {
+        return Jwts.parser()
+                .setSigningKey(SECRET_KEY)
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    public String extractRole(String token) {
+        return extractAllClaims(token).get("role", String.class);
+    }
+
 }

@@ -78,12 +78,18 @@ export default function SellNewCar() {
       formData.append("exteriorColor", car.exteriorColor);
       car.features.forEach((f) => formData.append("features", f));
       formData.append("image", car.imageFile);
-      formData.append("sellerEmail", sellerEmail); 
+      
       formData.append("sellerType", "SHOWROOM");
-     const res = await fetch("http://localhost:8080/api/cars/add", {
+     const token = localStorage.getItem("showroomToken");
+
+const res = await fetch("http://localhost:8080/api/cars/add", {
   method: "POST",
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
   body: formData,
 });
+
 
 
       

@@ -17,8 +17,10 @@ export default function Chat({
 }) {
 
   // ================= BASIC SAFETY =================
-  const loggedUser = JSON.parse(localStorage.getItem("user"));
-const username = loggedUser?.email;
+  const username = user;
+  
+
+ 
 const finalBuyerEmail =
   role === "BUYER" ? username : receiver;
 
@@ -87,7 +89,7 @@ useEffect(() => {
   const client = new Client({
     // ✅ Pass withCredentials for session cookies
     webSocketFactory: () =>
-      new SockJS(SOCKET_URL, null, { withCredentials: true }),
+      new SockJS(SOCKET_URL ),
     reconnectDelay: 5000,
     debug: (str) => {
       console.log("STOMP DEBUG:", str);
@@ -200,11 +202,10 @@ const displayedMessages = messages.filter(
     <div className="chat-container">
 
       <div className="chat-header">
-        <span>
-          {role === "BUYER"
-            ? `Chat with ${receiver}`
-            : `Chat with ${receiver}`}
-        </span>
+       <span>
+  Chat with {receiver}
+</span>
+
         <span className={connected ? "online" : "offline"}>
           {connected ? "● Online" : "● Connecting"}
         </span>
