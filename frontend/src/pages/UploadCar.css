@@ -1,0 +1,33 @@
+.upload-container {
+  max-width: 600px;
+  margin: 30px auto;
+  background: #11162a;
+  padding: 25px;
+  border-radius: 10px;
+}
+
+.upload-container h2 {
+  text-align: center;
+  color: #3aa0ff;
+  margin-bottom: 20px;
+}
+
+.upload-container input,
+.upload-container textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  background: #0b0f1a;
+  border: 1px solid #2c3e50;
+  color: white;
+  border-radius: 5px;
+}
+
+.upload-container button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #1e90ff, #005eff);
+  border: none;
+  color: white;
+  border-radius: 5px;
+}

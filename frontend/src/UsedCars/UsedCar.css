@@ -1,0 +1,252 @@
+/* Page */
+.used-cars-page {
+  min-height: 100vh;
+  padding: 40px 60px;
+  background: radial-gradient(circle at top, #0b0f14, #000);
+  font-family: "Inter", system-ui, sans-serif;
+  color: #fff;
+}
+.view-details-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.view-details-btn:hover {
+  background: linear-gradient(135deg, #1e40af, #1e3a8a);
+  transform: translateY(-1px);
+}
+
+
+/* Title */
+.page-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+/* Loading */
+.loading-text {
+  color: #94a3b8;
+  text-align: center;
+  margin-top: 100px;
+}
+
+/* Grid */
+.car-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 28px;
+}
+
+/* Card */
+.car-card {
+  background: #ffffff;
+  color: #111;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.car-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
+}
+
+/* Image */
+.car-image-box {
+  height: 180px;
+  background: linear-gradient(135deg, #0f172a, #020617);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.car-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* No Image */
+.no-image {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+/* Details */
+.car-details {
+  padding: 18px;
+}
+
+.car-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #e8e9eb;
+  
+}
+
+
+.car-price {
+  font-size: 17px;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 6px;
+}
+
+.car-location {
+  font-size: 13px;
+  color: #aaa;
+  margin-bottom: 10px;
+}
+
+.car-specs {
+  font-size: 13px;
+  color: #aaa;
+}
+
+/* Filter Button */
+.filter-btn {
+  background-color:#0af;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+  background-color: #0af;
+}
+
+/* Filter Panel */
+.filter-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.filter-panel select,
+.filter-panel input {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+
+
+
+/* Slide-out Filter Panel */
+.slide-filter {
+  position: fixed;
+  top: 0;
+  left: -320px; /* hidden by default */
+  width: 300px;
+  height: 100%;
+  background-color:rgb(11, 11, 11);
+  padding-top: 20px;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.2);
+  overflow-y: auto;
+  transition: left 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.slide-filter.open {
+  left: 0;
+}
+
+/* Close Button */
+.slide-filter .close-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  font-weight: bold;
+  color: #0af;
+  cursor: pointer;
+  align-self: flex-end;
+  margin-bottom: 15px;
+}
+
+/* Filter Headings */
+.slide-filter h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #0af;
+  text-transform: uppercase;
+}
+
+/* Inputs and Selects */
+.slide-filter select,
+.slide-filter input {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.slide-filter select:focus,
+.slide-filter input:focus {
+  border-color: #1e90ff;
+  box-shadow: 0 0 5px rgba(30,144,255,0.3);
+  outline: none;
+}
+
+/* Grouped sections */
+.filter-section {
+  
+  display: flex;
+  flex-direction: column;
+
+}
+
+/* Filter Button inside Panel */
+.slide-filter button.apply-btn {
+  background-color: #1e90ff;
+  color: #fff;
+  border: none;
+  padding: 10px 0;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.slide-filter button.apply-btn:hover {
+  background-color: #0c71d0;
+}
+
+/* Optional: add scrollbar style */
+.slide-filter::-webkit-scrollbar {
+  width: 6px;
+}
+.slide-filter::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}

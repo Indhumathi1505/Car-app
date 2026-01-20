@@ -1,0 +1,224 @@
+/* ================= GENERAL ================= */
+.sell-form,
+.sell-form h2,
+.sell-form h3,
+.sell-form p,
+.sell-form label,
+.sell-form span {
+  color: #f5f5f5;
+  font-family: "Inter", "Arial", sans-serif;
+}
+
+.sell-layout {
+  min-height: 100vh;
+  background:
+    linear-gradient(rgba(0,0,0,0.78), rgba(0,0,0,0.92)),
+    url("../assets/bg-car.jpg") center/cover no-repeat;
+}
+
+.sell-page {
+  padding: 48px 90px;
+}
+
+/* ================= FORM LAYOUT ================= */
+.sell-form {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 45px;
+}
+
+/* ================= LEFT PANEL ================= */
+.sell-left {
+  background: linear-gradient(
+  180deg,
+  rgba(0, 195, 217, 0.35),
+  #0b0f14
+);
+
+  padding: 32px;
+  border-radius: 18px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+}
+
+.sell-left h2 {
+  margin-bottom: 12px;
+  font-size: 26px;
+}
+
+.sell-left .breadcrumb {
+  margin-bottom: 28px;
+  font-size: 13px;
+  color: #bdbdbd;
+}
+
+.sell-left img {
+  width: 600px;
+  border-radius: 14px;
+  margin-top: 22px;
+  object-fit: cover;
+}
+
+/* ================= RIGHT PANEL ================= */
+.sell-right section {
+  margin-bottom: 28px;
+}
+
+/* ================= INPUTS ================= */
+input,
+textarea,
+select {
+  background: rgba(27,27,27,0.9);
+  border: 1px solid #333;
+  padding: 11px 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  color: white;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #00c3d9;
+  box-shadow: 0 0 0 2px rgba(0,195,217,0.25);
+}
+
+textarea {
+  height: 100px;
+  resize: none;
+}
+
+/* ================= ROWS ================= */
+.row {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+/* ================= FEATURES ================= */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  background: rgba(255,255,255,0.05);
+  padding: 10px 12px;
+  border-radius: 10px;
+  transition: background 0.25s, transform 0.2s, box-shadow 0.2s;
+}
+
+.feature-item:hover {
+  background: rgba(0,195,217,0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+.feature-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #00c3d9;
+}
+
+/* ================= IMAGE UPLOAD ================= */
+.image-upload-box {
+  border: 2px dashed #555;
+  border-radius: 14px;
+  padding: 28px;
+  text-align: center;
+  transition: border-color 0.3s, background 0.3s;
+  background: rgba(255,255,255,0.03);
+}
+
+.image-upload-box:hover {
+  border-color: #00c3d9;
+  background: rgba(0,195,217,0.05);
+}
+
+.upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.upload-plus {
+  width: 48px;
+  height: 48px;
+  background: #2b2b2b;
+  border-radius: 10px;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #00c3d9;
+}
+
+.image-preview {
+  margin-top: 18px;
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #444;
+}
+
+/* ================= SUBMIT BUTTON ================= */
+.submit-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #00c3d9, #00a6ba);
+  border: none;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.25s;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,195,217,0.35);
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  .sell-form {
+    grid-template-columns: 1fr;
+  }
+  .sell-page {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 650px) {
+  .sell-left,
+  .sell-right {
+    padding: 22px;
+  }
+}
+
+@media (max-width: 420px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}

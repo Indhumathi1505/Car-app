@@ -1,0 +1,173 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.login-container {
+  min-height: 100vh;
+  background: #0b0b0b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-card {
+  width: 1150px;
+  height: 600px;
+  display: flex;
+  background: #6b5f5c;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+/* LEFT PANEL */
+.login-left {
+  width: 20%;
+  background: #505252;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+}
+
+.semicircle-shape {
+  position: absolute;
+  left: -220px;
+  width: 450px;
+  height: 450px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+}
+
+.login-left h1 {
+  color: #2563eb;
+  font-size: 40px;
+  font-weight: 800;
+  z-index: 2;
+  line-height: 1.1;
+}
+
+/* MIDDLE IMAGE */
+.login-middle {
+  width: 35%;
+}
+
+.login-middle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* RIGHT FORM */
+.login-right {
+  width: 45%;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #1f1e1e;
+}
+
+.login-right h2 {
+  color: #2563eb;
+  font-size: 32px;
+}
+
+.welcome-text {
+  color: #e0e0e0;
+  font-size: 14px;
+  margin: 10px 0 25px;
+}
+
+.form-group input {
+  padding: 12px;
+  margin-bottom: 15px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+/* CAPTCHA */
+.captcha-row {
+  display: flex;
+  gap: 10px;
+}
+
+.captcha-box {
+  background: white;
+  padding: 10px 12px;
+  font-family: monospace;
+  font-weight: bold;
+  letter-spacing: 3px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.refresh {
+  cursor: pointer;
+}
+
+.forgot-link {
+  display: block;
+  margin-top: 10px;
+  font-size: 12px;
+  text-align: right;
+  color: #8a96ff;
+  text-decoration: none;
+}
+
+/* BUTTONS */
+.login-btn {
+  margin-top: 20px;
+  background: #2563eb;
+  color: white;
+  padding: 14px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+  color: white;
+  font-size: 12px;
+}
+
+.divider span {
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.google-btn {
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.google-btn img {
+  width: 18px;
+}
+
+.signup-redirect {
+  margin-top: 25px;
+  text-align: center;
+  color: #ddd;
+  font-size: 13px;
+}
+
+.signup-redirect a {
+  color: white;
+  text-decoration: underline;
+}

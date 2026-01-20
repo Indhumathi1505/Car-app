@@ -1,0 +1,103 @@
+* {
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+.rate-container {
+  min-height: 100vh;
+  background: #1c1c1c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rate-card {
+  width: 900px;
+  max-width: 95%;
+  background: #000;
+  padding: 70px 40px;
+  text-align: center;
+  border-radius: 6px;
+}
+
+/* Title */
+.rate-title {
+  color: #ffffff;
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+/* Question */
+.rate-question {
+  color: #ffffff;
+  font-size: 22px;
+  margin-bottom: 35px;
+}
+
+/* Stars */
+.stars {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 35px;
+}
+
+.star {
+  font-size: 42px;
+  cursor: pointer;
+  color: #777;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.star.filled {
+  color: #00aaff;
+}
+
+.star:hover {
+  transform: scale(1.2);
+}
+
+/* Review Textbox */
+.review-box {
+  width: 80%;
+  height: 120px;
+  padding: 15px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  resize: none;
+  margin-bottom: 25px;
+}
+
+/* Submit Button */
+.submit-btn {
+  background: #00aaff;
+  color: #000;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 14px 40px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: #0088cc;
+}
+
+/* Description / Messages */
+.rate-desc {
+  color: #ffffff;
+  font-size: 18px;
+  opacity: 0.85;
+  margin-bottom: 25px;
+}
+
+.status-msg {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #00ff99;
+}

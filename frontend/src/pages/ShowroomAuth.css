@@ -1,0 +1,141 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.auth-container {
+  min-height: 100vh;
+  background: #1b1b1b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 1100px;
+  height: 550px;
+  display: flex;
+  background: #2e2e2e;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+/* LEFT PANEL */
+.auth-left {
+  width: 20%;
+  background: #3d5c5d;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 20px;
+}
+
+.semicircle {
+  position: absolute;
+  left: -200px;
+  width: 400px;
+  height: 400px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 50%;
+}
+
+.auth-left h1 {
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  z-index: 2;
+}
+
+/* MIDDLE IMAGE */
+.auth-middle {
+  width: 35%;
+}
+
+.auth-middle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* RIGHT FORM */
+.auth-right {
+  width: 45%;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.auth-right h2 {
+  color: white;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.auth-right p {
+  color: #ccc;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.auth-right input {
+  padding: 12px;
+  margin-bottom: 15px;
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.auth-btn {
+  margin-top: 10px;
+  background: #00c3d9;
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.auth-btn:hover {
+  background: #00a9bb;
+}
+
+.auth-redirect {
+  margin-top: 20px;
+  text-align: center;
+  color: #ddd;
+  font-size: 13px;
+}
+
+.auth-redirect a {
+  color: white;
+  text-decoration: underline;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .auth-card {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .auth-left, .auth-middle, .auth-right {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .auth-middle img {
+    height: 200px;
+  }
+}

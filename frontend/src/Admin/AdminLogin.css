@@ -1,0 +1,150 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===== FULL PAGE BACKGROUND ===== */
+.admin-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: radial-gradient(circle at top, #1e3a8a 0%, #0f172a 40%, #000 85%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle grid glow like image */
+.admin-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle, rgba(59,130,246,0.12) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.35;
+}
+
+/* ===== TOP TEXT ===== */
+.admin-hero {
+  text-align: center;
+  margin-bottom: 45px;
+  z-index: 1;
+}
+
+.admin-hero h1 {
+  font-size: 38px;
+  font-weight: 700;
+  color: #60a5fa; /* light blue */
+}
+
+.admin-hero p {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #3b82f6; /* medium blue */
+  letter-spacing: 0.6px;
+}
+
+/* ===== LOGIN CARD ===== */
+.admin-card {
+  width: 360px;
+  max-width: 92%;
+  padding: 36px 32px;
+  border-radius: 16px;
+  background: rgba(6, 18, 36, 0.85); /* slightly darker for blue theme */
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(59,130,246,0.25); /* border in blue */
+  box-shadow:
+    0 0 40px rgba(59,130,246,0.35),
+    0 30px 70px rgba(0,0,0,0.9);
+  z-index: 1;
+}
+
+/* ===== CARD TEXT ===== */
+.admin-title {
+  text-align: center;
+  font-size: 22px;
+  color:  #3452b5; /* soft light blue */
+  margin-bottom: 6px;
+}
+
+.admin-subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #94a3b8;
+  margin-bottom: 28px;
+}
+
+/* ===== INPUTS ===== */
+.admin-field {
+  margin-bottom: 20px;
+}
+
+.admin-field label {
+  display: block;
+  font-size: 13px;
+  color: #94a3b8;
+  margin-bottom: 6px;
+}
+
+.admin-field input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #3452b5; /* dark blue border */
+  background: rgba(2, 12, 36, 0.85);
+  color: #e0f2fe;
+  font-size: 14px;
+  outline: none;
+}
+
+.admin-field input::placeholder {
+  color: #64748b;
+}
+
+.admin-field input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 14px rgba(59,130,246,0.7);
+}
+
+/* ===== OPTIONS ===== */
+.admin-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 22px;
+}
+
+.admin-options .forgot {
+  color: #3b82f6;
+  cursor: pointer;
+}
+
+.admin-options .forgot:hover {
+  text-decoration: underline;
+}
+
+/* ===== BUTTON ===== */
+.admin-btn {
+  width: 100%;
+  padding: 13px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a; /* dark text */
+  background: linear-gradient(135deg, #3b82f6, #3562df); /* blue gradient */
+  box-shadow: 0 0 30px rgba(59,130,246,0.8);
+  transition: all 0.3s ease;
+}
+
+.admin-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 45px rgba(59,130,246,1);
+}
