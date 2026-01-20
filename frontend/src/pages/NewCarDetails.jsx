@@ -100,16 +100,18 @@ export default function NewCarDetails() {
 
   // ===== CONTACT DEALER =====
   const contactDealer = async () => {
-    try {
-      const res = await axios.get(
-        `http://localhost:8080/api/cars/contact/${id}`
-      );
-      setShowroom(res.data);
-      setShowModal(true);
-    } catch {
-      alert("Failed to get showroom info");
-    }
-  };
+  try {
+    const res = await axios.get(
+      `http://localhost:8080/api/cars/contact/${id}`
+    );
+    setShowroom(res.data);
+    setShowModal(true); // 🔥 THIS opens modal
+  } catch (err) {
+    console.error(err.response?.data || err.message);
+    alert("Dealer details not available");
+  }
+};
+
 
   // ===== SUBMIT REVIEW =====
   const submitReview = async (e) => {
@@ -141,9 +143,21 @@ export default function NewCarDetails() {
   reviews.forEach(r => counts[r.rating - 1]++);
 
   const pieData = {
-    labels: ["1★", "2★", "3★", "4★", "5★"],
-    datasets: [{ data: counts }]
-  };
+  labels: ["1★", "2★", "3★", "4★", "5★"],
+  datasets: [
+    {
+      data: counts,
+      backgroundColor: [
+        "#ce8f9cff",
+        "#73c3f8ff",
+        "#eed493ff",
+        "#9be8e8ff",
+        "#b69de8ff"
+      ]
+    }
+  ]
+};
+
 
   if (loading) return <div className="loading">Loading...</div>;
   if (!car) return <div className="loading">Car not found</div>;
@@ -185,33 +199,34 @@ export default function NewCarDetails() {
         </table>
 
         <div className="action-buttons">
-          <button className="contact-btn" onClick={contactDealer}>
-            <FaPhoneAlt /> Contact Dealer
-          </button>
+          {car.sellerType === "SHOWROOM" && (
+  <button className="contact-btn" onClick={contactDealer}>
+    <FaPhoneAlt /> Contact Dealer
+  </button>
+)}
+
         </div>
       </div>
 
       {/* REVIEWS */}
-      <div className="reviews-section">
-        <h2>Customer Reviews</h2>
+     
+      {showModal && showroom && (
+  <div className="dealer-modal-overlay">
+    <div className="dealer-modal">
+      <h3>Dealer Contact Details</h3>
 
-        {reviews.length > 0 && (
-          <div className="pie-chart">
-            <Pie data={pieData} />
-          </div>
-        )}
+      <p><b>Name:</b> {showroom.name}</p>
+      <p><b>Email:</b> {showroom.email}</p>
+      <p><b>Phone:</b> {showroom.phone}</p>
+      <p><b>Address:</b> {showroom.address}</p>
 
-        <form onSubmit={submitReview}>
-          <textarea
-            value={newReview.comment}
-            onChange={e =>
-              setNewReview({ ...newReview, comment: e.target.value })
-            }
-            required
-          />
-          <button type="submit">Submit Review</button>
-        </form>
-      </div>
+      <button onClick={() => setShowModal(false)}>
+        Close
+      </button>
+    </div>
+  </div>
+)}
+
 
     </div>
   );
