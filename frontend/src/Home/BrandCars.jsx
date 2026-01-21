@@ -1,6 +1,8 @@
 import { useNavigate, useParams} from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../api/api";
+
+
 export default function BrandCars() {
   const { brand } = useParams();
   const navigate = useNavigate();
@@ -38,7 +40,7 @@ export default function BrandCars() {
               />
             </div>
 
-            <div className="car-details">
+            <div className="car-price">
               <h3>{car.title || `${car.brand} ${car.model}`}</h3>
               <p className="car-price">
                 ₹ {Number(car.price).toLocaleString("en-IN")}
@@ -50,7 +52,7 @@ export default function BrandCars() {
                   if (car.condition === "New") {
                     navigate(`/new-car/${car.id || car._id}`);
                   } else {
-                    navigate(`/used-car/${car.id || car._id}`);
+                    navigate(`/car/${car.id || car._id}`);
                   }
                 }}
               >
