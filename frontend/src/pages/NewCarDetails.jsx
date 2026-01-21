@@ -228,6 +228,24 @@ export default function NewCarDetails() {
           />
           <button type="submit">Submit Review</button>
         </form>
+        {/* REVIEW LIST */}
+<div className="review-list">
+  {reviews.length ? (
+    reviews.map(r => (
+      <div key={`${id}-${r.userEmail}-${r.createdAt}`} className="review-card">
+
+        <strong>{r.userEmail}</strong>
+        <div className="review-stars">
+          {"★".repeat(r.rating)}
+        </div>
+        <p>{r.comment}</p>
+      </div>
+    ))
+  ) : (
+    <p>No reviews yet</p>
+  )}
+</div>
+
       </div>
       {showModal && showroom && (
   <div className="dealer-modal-overlay">
