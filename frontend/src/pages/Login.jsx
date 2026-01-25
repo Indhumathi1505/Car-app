@@ -15,8 +15,8 @@ export default function Login() {
   const [captcha, setCaptcha] = useState("");
   const [inputCaptcha, setInputCaptcha] = useState("");
   useEffect(() => {
-  localStorage.removeItem("user");
-}, []);
+    localStorage.removeItem("user");
+  }, []);
 
 
   // Generate CAPTCHA
@@ -46,26 +46,23 @@ export default function Login() {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
-        
+
         body: JSON.stringify({ email, password }),
       });
 
       const data = await res.json();
-      if (res.ok) { 
-  alert("Login successful ✅");
-  localStorage.setItem("user", JSON.stringify({
-    email,
-    name: data.name,
-    role: data.role
-  }));
-  navigate("/info");
-  return; // ✅ STOP HERE
-}
-
-alert(data.message || "Invalid email or password");
-
-
-     
+      if (res.ok) {
+        alert("Login successful ✅");
+        localStorage.setItem("user", JSON.stringify({
+          email: email,
+          name: data.name,
+          role: data.role,
+          token: data.token
+        }));
+        navigate("/info");
+        return;
+      }
+      alert(data.message || "Invalid email or password");
     } catch (err) {
       alert("Server error: " + err.message);
     }
@@ -77,33 +74,29 @@ alert(data.message || "Invalid email or password");
     if (!response.credential) return alert("Google credential missing!");
 
     try {
-      const user = jwtDecode(response.credential);
-      console.log("Decoded user:", user);
+      const decoded = jwtDecode(response.credential);
+      console.log("Decoded user:", decoded);
 
       const res = await fetch("http://localhost:8080/api/auth/google-login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ name: user.name, email: user.email }),
+        body: JSON.stringify({ name: decoded.name, email: decoded.email }),
       });
 
       const data = await res.json();
-     if (res.ok) {
-  alert("Login successful");
-  localStorage.setItem("user", JSON.stringify({
-  email: user.email,
-  name: user.name,
-  role: "BUYER"
-}));
-
-  navigate("/info");
-  return;
-}
-
-alert(data.message || "Login failed");
-
-
-      
+      if (res.ok) {
+        alert("Login successful");
+        localStorage.setItem("user", JSON.stringify({
+          email: decoded.email,
+          name: decoded.name,
+          role: data.role,
+          token: data.token
+        }));
+        navigate("/info");
+        return;
+      }
+      alert(data.message || "Login failed");
     } catch (err) {
       console.error(err);
       alert("Google Sign In Failed");
@@ -140,8 +133,8 @@ alert(data.message || "Login failed");
 
           <div className="divider"><span></span><p>or</p><span></span></div>
 
-          <GoogleLogin 
-            onSuccess={handleGoogleSuccess} 
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
             onError={() => alert("Google Sign In Failed!")}
           />
 
