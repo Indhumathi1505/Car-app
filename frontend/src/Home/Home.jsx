@@ -19,6 +19,7 @@ import bentley from "../assets/brands/bentley.png";
 import mercedes from "../assets/brands/mercedes.png";
 import jaguar from "../assets/brands/jaguar.png";
 */
+import hero from "../assets/hero.jpg";
 import audi from "../assets/brands/audi.png";
 import bmw from "../assets/brands/bmw.jpg";
 import lamborghini from "../assets/brands/lamborghini.jpg";
