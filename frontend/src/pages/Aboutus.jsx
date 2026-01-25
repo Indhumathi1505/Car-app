@@ -1,4 +1,4 @@
-import "./AboutUs.css";
+import "./Aboutus.css";
 import carImg from "../assets/car.jpg";
 
 /* ✅ Import Navbar */
