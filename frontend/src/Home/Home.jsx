@@ -6,6 +6,7 @@ import Footer from "../Footer/Footer";
 import "./Home.css";
 
 /* ==== Images ==== */
+/*
 import hero from "../assets/hero.jpg";
 import audi from "../assets/brands/honda.png";
 import bmw from "../assets/brands/bmw.jpg";
@@ -17,6 +18,18 @@ import toyota from "../assets/brands/toyota.jpg";
 import bentley from "../assets/brands/bentley.png";
 import mercedes from "../assets/brands/mercedes.png";
 import jaguar from "../assets/brands/jaguar.png";
+*/
+import audi from "../assets/brands/audi.png";
+import bmw from "../assets/brands/bmw.jpg";
+import lamborghini from "../assets/brands/lamborghini.jpg";
+import ford from "../assets/brands/ford.jpg";
+import suzuki from "../assets/brands/suzuki.jpg";
+import honda from "../assets/brands/honda.png";
+import toyota from "../assets/brands/toyota.jpg";
+import bentley from "../assets/brands/bentley.png";
+import mercedes from "../assets/brands/mercedes.png";
+import jaguar from "../assets/brands/jaguar.png";
+
 
 import api from "../api/api";
 
