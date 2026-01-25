@@ -9,7 +9,7 @@ export default function SellUsedCar() {
 
   const [car, setCar] = useState({
     title: "",
-     brand: "", 
+    brand: "",
     bodyType: "",
     model: "",
     year: "",
@@ -58,61 +58,61 @@ export default function SellUsedCar() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!car.imageFile) {
-    alert("Please upload car image");
-    return;
-  }
+    if (!car.imageFile) {
+      alert("Please upload car image");
+      return;
+    }
 
-  if (!car.certificateFile) {
-    alert("RC / Insurance is mandatory for used cars");
-    return;
-  }
+    if (!car.certificateFile) {
+      alert("RC / Insurance is mandatory for used cars");
+      return;
+    }
 
-  try {
-    const formData = new FormData();
-    formData.append("title", car.title);
-    formData.append("brand", car.brand);
-    formData.append("bodyType", car.bodyType);
-    formData.append("model", car.model);
-    formData.append("year", Number(car.year));
-    formData.append("fuelType", car.fuelType);
-    formData.append("price", Number(car.price));
-    formData.append("mileage", Number(car.mileage) || 0);
-    formData.append("engineCapacity", Number(car.engineCapacity) || 0);
-    formData.append("description", car.description);
-    formData.append("condition", car.condition);
-    formData.append("exteriorColor", car.exteriorColor);
-    car.features.forEach((f) => formData.append("features", f));
-    formData.append("image", car.imageFile);
-    formData.append("certificate", car.certificateFile);
-    formData.append("sellerType", "USER");
+    try {
+      const formData = new FormData();
+      formData.append("title", car.title);
+      formData.append("brand", car.brand);
+      formData.append("bodyType", car.bodyType);
+      formData.append("model", car.model);
+      formData.append("year", Number(car.year));
+      formData.append("fuelType", car.fuelType);
+      formData.append("price", Number(car.price));
+      formData.append("mileage", Number(car.mileage) || 0);
+      formData.append("engineCapacity", Number(car.engineCapacity) || 0);
+      formData.append("description", car.description);
+      formData.append("condition", car.condition);
+      formData.append("exteriorColor", car.exteriorColor);
+      car.features.forEach((f) => formData.append("features", f));
+      formData.append("image", car.imageFile);
+      formData.append("certificate", car.certificateFile);
+      formData.append("sellerType", "USER");
 
-    const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token");
 
-if (!token) {
-  alert("You must be logged in to sell a car");
-  return;
-}
+      if (!token) {
+        alert("You must be logged in to sell a car");
+        return;
+      }
 
-const res = await fetch("http://localhost:8080/api/cars/add", {
-  method: "POST",
-  headers: {
-    Authorization: `Bearer ${token}`
-  },
-  body: formData
-});
+      const res = await fetch("https://car-backend-final.onrender.com/api/cars/add", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        body: formData
+      });
 
-    if (!res.ok) throw new Error("Upload failed");
+      if (!res.ok) throw new Error("Upload failed");
 
-    alert("Car sent for admin approval");
-    navigate("/");
-  } catch (err) {
-    console.error(err);
-    alert("Upload failed");
-  }
-};
+      alert("Car sent for admin approval");
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+      alert("Upload failed");
+    }
+  };
 
 
   return (
@@ -133,12 +133,12 @@ const res = await fetch("http://localhost:8080/api/cars/add", {
               <h3>Car Details</h3>
               <input name="title" placeholder="Title" value={car.title} onChange={handleChange} required />
               <input
-  name="brand"
-  placeholder="Brand (Honda, BMW, etc)"
-  value={car.brand}
-  onChange={handleChange}
-  required
-/>
+                name="brand"
+                placeholder="Brand (Honda, BMW, etc)"
+                value={car.brand}
+                onChange={handleChange}
+                required
+              />
 
               <input name="model" placeholder="Model" value={car.model} onChange={handleChange} required />
               <input name="year" type="number" placeholder="Year" value={car.year} onChange={handleChange} />
@@ -152,51 +152,51 @@ const res = await fetch("http://localhost:8080/api/cars/add", {
 
               <p><b>Features:</b></p>
               <div className="features-grid">
-  {[
-    // Comfort
-    "Air Conditioning",
-    "Power Steering",
-    "Power Windows",
-    "Automatic Climate Control",
-    "Rear AC Vents",
+                {[
+                  // Comfort
+                  "Air Conditioning",
+                  "Power Steering",
+                  "Power Windows",
+                  "Automatic Climate Control",
+                  "Rear AC Vents",
 
-    // Safety
-    "ABS",
-    "Airbags",
-    "Traction Control",
-    "Hill Assist",
-    "ISOFIX Child Seat Mounts",
+                  // Safety
+                  "ABS",
+                  "Airbags",
+                  "Traction Control",
+                  "Hill Assist",
+                  "ISOFIX Child Seat Mounts",
 
-    // Technology
-    "Navigation System",
-    "Touchscreen Display",
-    "Bluetooth",
-    "Apple CarPlay / Android Auto",
-    "USB Charging",
+                  // Technology
+                  "Navigation System",
+                  "Touchscreen Display",
+                  "Bluetooth",
+                  "Apple CarPlay / Android Auto",
+                  "USB Charging",
 
-    // Exterior
-    "Alloy Wheels",
-    "Fog Lamps",
-    "LED Headlamps",
-    "Sunroof",
+                  // Exterior
+                  "Alloy Wheels",
+                  "Fog Lamps",
+                  "LED Headlamps",
+                  "Sunroof",
 
-    // Convenience
-    "Keyless Entry",
-    "Push Button Start",
-    "Cruise Control",
-    "Parking Sensors",
-    "Rear View Camera"
-  ].map((f) => (
-    <label className="feature-item" key={f}>
-      <input
-        type="checkbox"
-        checked={car.features?.includes(f)}
-        onChange={() => handleFeatureChange(f)}
-      />
-      {f}
-    </label>
-  ))}
-</div>
+                  // Convenience
+                  "Keyless Entry",
+                  "Push Button Start",
+                  "Cruise Control",
+                  "Parking Sensors",
+                  "Rear View Camera"
+                ].map((f) => (
+                  <label className="feature-item" key={f}>
+                    <input
+                      type="checkbox"
+                      checked={car.features?.includes(f)}
+                      onChange={() => handleFeatureChange(f)}
+                    />
+                    {f}
+                  </label>
+                ))}
+              </div>
 
 
               <p><b>Condition:</b> {car.condition}</p>

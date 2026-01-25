@@ -12,10 +12,10 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export default function UsedCarDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
- const loggedUser = JSON.parse(localStorage.getItem("user"));
-const buyerEmail = loggedUser?.email;
-const buyerName = loggedUser?.name;
- // logged-in user
+  const loggedUser = JSON.parse(localStorage.getItem("user"));
+  const buyerEmail = loggedUser?.email;
+  const buyerName = loggedUser?.name;
+  // logged-in user
 
   const [car, setCar] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -31,7 +31,7 @@ const buyerName = loggedUser?.name;
   useEffect(() => {
     const fetchCar = async () => {
       try {
-        const res = await axios.get(`http://localhost:8080/api/cars/${id}`);
+        const res = await axios.get(`https://car-backend-final.onrender.com/api/cars/${id}`);
         setCar(res.data);
         setSelectedImage(res.data.image || "");
       } catch (err) {
@@ -47,7 +47,7 @@ const buyerName = loggedUser?.name;
   // ======== FETCH REVIEWS ========
   const fetchReviews = async () => {
     try {
-      const res = await axios.get(`http://localhost:8080/api/reviews/car/${id}`, { withCredentials: true });
+      const res = await axios.get(`https://car-backend-final.onrender.com/api/reviews/car/${id}`, { withCredentials: true });
       setReviews(res.data);
     } catch (err) {
       console.error("Failed to fetch reviews:", err.response || err);
@@ -81,39 +81,39 @@ const buyerName = loggedUser?.name;
     }
   };
   */
- useEffect(() => {
-  if (!buyerEmail) return;
+  useEffect(() => {
+    if (!buyerEmail) return;
 
-  axios
-    .get(`http://localhost:8080/api/favorites/${buyerEmail}`)
-    .then(res => {
-     setIsFavourite(res.data.some(f => f.carId === id));
+    axios
+      .get(`https://car-backend-final.onrender.com/api/favorites/${buyerEmail}`)
+      .then(res => {
+        setIsFavourite(res.data.some(f => f.carId === id));
 
-    })
-    .catch(err => console.error(err));
-}, [id, buyerEmail]);
-const toggleFavourite = async () => {
-  if (!buyerEmail) {
-    alert("Please login");
-    navigate("/login");
-    return;
-  }
+      })
+      .catch(err => console.error(err));
+  }, [id, buyerEmail]);
+  const toggleFavourite = async () => {
+    if (!buyerEmail) {
+      alert("Please login");
+      navigate("/login");
+      return;
+    }
 
-  try {
-    const res = await axios.post(
-      "http://localhost:8080/api/favorites/toggle",
-      {
-        userEmail: buyerEmail,
-        carId: id,
-        carType: "USED"
-      }
-    );
+    try {
+      const res = await axios.post(
+        "https://car-backend-final.onrender.com/api/favorites/toggle",
+        {
+          userEmail: buyerEmail,
+          carId: id,
+          carType: "USED"
+        }
+      );
 
-    setIsFavourite(res.data);
-  } catch (err) {
-    console.error("Toggle failed", err);
-  }
-};
+      setIsFavourite(res.data);
+    } catch (err) {
+      console.error("Toggle failed", err);
+    }
+  };
 
 
   // ======== SUBMIT REVIEW ========
@@ -129,7 +129,7 @@ const toggleFavourite = async () => {
     };
 
     try {
-      await axios.post("http://localhost:8080/api/reviews", payload,{ withCredentials: true });
+      await axios.post("https://car-backend-final.onrender.com/api/reviews", payload, { withCredentials: true });
       setNewReview({ rating: 5, comment: "" });
       fetchReviews(); // refresh reviews
       alert("Review submitted successfully!");
@@ -143,7 +143,7 @@ const toggleFavourite = async () => {
   // ======== PIE CHART DATA ========
   const counts = [0, 0, 0, 0, 0]; // 1★ - 5★
   reviews.forEach(r => counts[r.rating - 1]++);
-   const pieData = {
+  const pieData = {
     labels: ["1★", "2★", "3★", "4★", "5★"],
     datasets: [
       {
@@ -177,15 +177,15 @@ const toggleFavourite = async () => {
           alt="car"
         />
         <div className="thumbnail-row">
-         {(car.images || [car.image]).map((img, index) => (
-  <img
-    key={`${img}-${index}`}
-    src={`data:image/jpeg;base64,${img}`}
-    className={selectedImage === img ? "thumb active" : "thumb"}
-    onClick={() => setSelectedImage(img)}
-    alt="thumb"
-  />
-))}
+          {(car.images || [car.image]).map((img, index) => (
+            <img
+              key={`${img}-${index}`}
+              src={`data:image/jpeg;base64,${img}`}
+              className={selectedImage === img ? "thumb active" : "thumb"}
+              onClick={() => setSelectedImage(img)}
+              alt="thumb"
+            />
+          ))}
 
 
         </div>
@@ -228,41 +228,41 @@ const toggleFavourite = async () => {
         {/* CONTACT / CHAT */}
         <div className="action-buttons">
           <button
-  className="contact-btn"
-  onClick={() => {
-    if (!buyerEmail) {
-      alert("Please login to contact owner");
-      navigate("/login");
-      return;
-    }
+            className="contact-btn"
+            onClick={() => {
+              if (!buyerEmail) {
+                alert("Please login to contact owner");
+                navigate("/login");
+                return;
+              }
 
-    // ✅ DEBUG LOGS
-    console.log("Contact Owner Clicked");
-    console.log("Car ID:", car?._id||car?.id);
-    console.log("SellerName:", car?.sellerName);
-    console.log("BuyerEmail:", buyerEmail);
+              // ✅ DEBUG LOGS
+              console.log("Contact Owner Clicked");
+              console.log("Car ID:", car?._id || car?.id);
+              console.log("SellerName:", car?.sellerName);
+              console.log("BuyerEmail:", buyerEmail);
 
-    setShowChat(prev => !prev);
-  }}
->
-  <FaPhoneAlt /> {showChat ? "Close Chat" : "Contact Owner"}
-</button>
-
-
-{showChat && (car?._id || car?.id) && buyerEmail && (
-
-<Chat
-  carId={car._id || car.id}
-  user={buyerEmail}
-  role="BUYER"
-  receiver={car.sellerEmail}
-  buyerEmail={buyerEmail}          // ✅ explicit
-  sellerEmail={car.sellerEmail}    // ✅ explicit
- />
+              setShowChat(prev => !prev);
+            }}
+          >
+            <FaPhoneAlt /> {showChat ? "Close Chat" : "Contact Owner"}
+          </button>
 
 
+          {showChat && (car?._id || car?.id) && buyerEmail && (
 
-)}
+            <Chat
+              carId={car._id || car.id}
+              user={buyerEmail}
+              role="BUYER"
+              receiver={car.sellerEmail}
+              buyerEmail={buyerEmail}          // ✅ explicit
+              sellerEmail={car.sellerEmail}    // ✅ explicit
+            />
+
+
+
+          )}
 
 
 
@@ -313,27 +313,27 @@ const toggleFavourite = async () => {
             <button type="submit">Submit Review</button>
           </form>
         </div>
-       {/* REVIEWS */}
-      <div className="reviews-section">
-        <h2>Customer Reviews</h2>
+        {/* REVIEWS */}
+        <div className="reviews-section">
+          <h2>Customer Reviews</h2>
 
-        {/* REVIEW LIST */}
-        <div className="review-list">
-          {reviews.length ? (
-            reviews.map(r => (
-  <div key={r._id} className="review-card">
-    <strong>{r.userEmail}</strong>
-    <div className="review-stars">
-      {"★".repeat(r.rating)}
-    </div>
-    <p>{r.comment}</p>
-  </div>
-))
-          ) : (
-            <p>No reviews yet</p>
-          )}
+          {/* REVIEW LIST */}
+          <div className="review-list">
+            {reviews.length ? (
+              reviews.map(r => (
+                <div key={r._id} className="review-card">
+                  <strong>{r.userEmail}</strong>
+                  <div className="review-stars">
+                    {"★".repeat(r.rating)}
+                  </div>
+                  <p>{r.comment}</p>
+                </div>
+              ))
+            ) : (
+              <p>No reviews yet</p>
+            )}
+          </div>
         </div>
-      </div>
       </div>
     </div>
   );

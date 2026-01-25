@@ -14,7 +14,8 @@ export default function AdminPendingCars() {
   const token = localStorage.getItem("token");
 
   const res = await axios.get(
-    "http://localhost:8080/api/admin/cars/pending",
+       "https://car-backend-final.onrender.com/api/admin/cars/pending",
+
     {
       headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -30,7 +31,7 @@ export default function AdminPendingCars() {
   const token = localStorage.getItem("token");
 
   await axios.put(
-    `http://localhost:8080/api/admin/cars/approve/${id}`,
+    `https://car-backend-final.onrender.com/api/admin/cars/approve/${id}`,
     {},
     {
       headers: {
@@ -47,7 +48,7 @@ const rejectCar = async (id) => {
   const token = localStorage.getItem("token");
 
   await axios.delete(
-    `http://localhost:8080/api/admin/cars/reject/${id}`,
+    `https://car-backend-final.onrender.com/api/admin/cars/reject/${id}`,
     {
       headers: {
         Authorization: `Bearer ${token}`

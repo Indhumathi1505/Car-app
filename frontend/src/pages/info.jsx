@@ -33,7 +33,7 @@ export default function ProfileInfo() {
       const formData = new FormData();
 
       // Append text fields if they have a value
-      ["fullName","email","phone","gender","state","city","pincode","address"].forEach(
+      ["fullName", "email", "phone", "gender", "state", "city", "pincode", "address"].forEach(
         key => {
           if (form[key]) formData.append(key, form[key]);
         }
@@ -44,7 +44,7 @@ export default function ProfileInfo() {
         formData.append("image", form.image);
       }
 
-      const res = await fetch("http://localhost:8080/api/profile", {
+      const res = await fetch("https://car-backend-final.onrender.com/api/profile", {
         method: "POST",
         body: formData // ✅ multipart/form-data
       });

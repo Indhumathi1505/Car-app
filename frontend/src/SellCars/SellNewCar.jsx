@@ -11,7 +11,7 @@ export default function SellNewCar() {
 
   const [car, setCar] = useState({
     title: "",
-    brand: "",  
+    brand: "",
     bodyType: "",
     model: "",
     year: "",
@@ -78,21 +78,21 @@ export default function SellNewCar() {
       formData.append("exteriorColor", car.exteriorColor);
       car.features.forEach((f) => formData.append("features", f));
       formData.append("image", car.imageFile);
-      
+
       formData.append("sellerType", "SHOWROOM");
-     const token = localStorage.getItem("showroomToken");
+      const token = localStorage.getItem("showroomToken");
 
-const res = await fetch("http://localhost:8080/api/cars/add", {
-  method: "POST",
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-  body: formData,
-});
+      const res = await fetch("https://car-backend-final.onrender.com/api/cars/add", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
 
 
 
-      
+
 
       if (!res.ok) throw new Error("Upload failed");
 
@@ -122,12 +122,12 @@ const res = await fetch("http://localhost:8080/api/cars/add", {
               <h3>Car Details</h3>
               <input name="title" placeholder="Title" value={car.title} onChange={handleChange} required />
               <input
-  name="brand"
-  placeholder="Brand"
-  value={car.brand}
-  onChange={handleChange}
-  required
-/>
+                name="brand"
+                placeholder="Brand"
+                value={car.brand}
+                onChange={handleChange}
+                required
+              />
 
               <input name="model" placeholder="Model" value={car.model} onChange={handleChange} required />
               <input name="year" type="number" placeholder="Year" value={car.year} onChange={handleChange} />
@@ -140,37 +140,37 @@ const res = await fetch("http://localhost:8080/api/cars/add", {
               <textarea name="description" placeholder="Description" value={car.description} onChange={handleChange} />
 
               <p><b>Features:</b></p>
-             <div className="features-grid">
-  {[
-    "Air Conditioning",
-    "Power Steering",
-    "ABS",
-    "Navigation System",
-    "Airbags",
-    "Rear Camera",
-    "Parking Sensors",
-    "Sunroof",
-    "Alloy Wheels",
-    "Cruise Control",
-    "Bluetooth",
-    "Touchscreen Display",
-    "Keyless Entry",
-    "Engine Start/Stop Button",
-    "Leather Seats",
-    "Fog Lamps",
-    "Hill Assist",
-    "Traction Control"
-  ].map((f) => (
-    <label className="feature-item" key={f}>
-      <input
-        type="checkbox"
-        checked={car.features?.includes(f)}
-        onChange={() => handleFeatureChange(f)}
-      />
-      {f}
-    </label>
-  ))}
-</div>
+              <div className="features-grid">
+                {[
+                  "Air Conditioning",
+                  "Power Steering",
+                  "ABS",
+                  "Navigation System",
+                  "Airbags",
+                  "Rear Camera",
+                  "Parking Sensors",
+                  "Sunroof",
+                  "Alloy Wheels",
+                  "Cruise Control",
+                  "Bluetooth",
+                  "Touchscreen Display",
+                  "Keyless Entry",
+                  "Engine Start/Stop Button",
+                  "Leather Seats",
+                  "Fog Lamps",
+                  "Hill Assist",
+                  "Traction Control"
+                ].map((f) => (
+                  <label className="feature-item" key={f}>
+                    <input
+                      type="checkbox"
+                      checked={car.features?.includes(f)}
+                      onChange={() => handleFeatureChange(f)}
+                    />
+                    {f}
+                  </label>
+                ))}
+              </div>
 
 
               <p><b>Condition:</b> {car.condition}</p>

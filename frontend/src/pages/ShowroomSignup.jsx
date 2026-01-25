@@ -11,7 +11,7 @@ export default function ShowroomSignup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-const [address, setAddress] = useState("");
+  const [address, setAddress] = useState("");
 
   const [loading, setLoading] = useState(false);
 
@@ -20,10 +20,10 @@ const [address, setAddress] = useState("");
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:8080/api/showroom/signup", {
+      const res = await fetch("https://car-backend-final.onrender.com/api/showroom/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password,phone,address }),
+        body: JSON.stringify({ name, email, password, phone, address }),
       });
 
       const data = await res.json();
@@ -44,10 +44,10 @@ const [address, setAddress] = useState("");
   const handleGoogleSuccess = async (response) => {
     try {
       const user = jwtDecode(response.credential);
-      const res = await fetch("http://localhost:8080/api/showroom/google-login", {
+      const res = await fetch("https://car-backend-final.onrender.com/api/showroom/google-login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: user.email ,password:password}),
+        body: JSON.stringify({ email: user.email, password: password }),
       });
 
       const data = await res.json();
@@ -95,7 +95,7 @@ const [address, setAddress] = useState("");
             onChange={(e) => setPassword(e.target.value)}
           />
           <input placeholder="Phone" value={phone} onChange={e => setPhone(e.target.value)} />
-<input placeholder="Address" value={address} onChange={e => setAddress(e.target.value)} />
+          <input placeholder="Address" value={address} onChange={e => setAddress(e.target.value)} />
 
 
           <button className="auth-btn" onClick={handleSignup} disabled={loading}>

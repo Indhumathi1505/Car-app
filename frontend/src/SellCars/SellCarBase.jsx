@@ -97,7 +97,7 @@ export default function SellCarBase({ mode }) {
         formData.append("sellerId", localStorage.getItem("sellerId"));
       }
 
-      const res = await fetch("http://localhost:8080/api/cars/add", {
+      const res = await fetch("https://car-backend-final.onrender.com/api/cars/add", {
         method: "POST",
         headers:
           sellerType === "SHOWROOM"

@@ -42,7 +42,7 @@ export default function Login() {
     }
 
     try {
-      const res = await fetch("http://localhost:8080/api/auth/login", {
+      const res = await fetch("https://car-backend-final.onrender.com/api/auth/login", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -77,7 +77,7 @@ export default function Login() {
       const decoded = jwtDecode(response.credential);
       console.log("Decoded user:", decoded);
 
-      const res = await fetch("http://localhost:8080/api/auth/google-login", {
+      const res = await fetch("https://car-backend-final.onrender.com/api/auth/google-login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

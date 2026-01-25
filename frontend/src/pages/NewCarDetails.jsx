@@ -35,7 +35,7 @@ export default function NewCarDetails() {
   // ===== FETCH CAR =====
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/cars/${id}`)
+      .get(`https://car-backend-final.onrender.com/api/cars/${id}`)
       .then(res => {
         setCar(res.data);
         setImage(res.data.image);
@@ -51,7 +51,7 @@ export default function NewCarDetails() {
     if (!buyerEmail) return;
 
     axios
-      .get(`http://localhost:8080/api/favorites/${buyerEmail}`)
+      .get(`https://car-backend-final.onrender.com/api/favorites/${buyerEmail}`)
       .then(res => {
         setIsFavourite(res.data.some(f => f.carId === id));
 
@@ -68,7 +68,7 @@ export default function NewCarDetails() {
 
     try {
       const res = await axios.post(
-        "http://localhost:8080/api/favorites/toggle",
+        "https://car-backend-final.onrender.com/api/favorites/toggle",
         {
           userEmail: buyerEmail,
           carId: id,
@@ -86,7 +86,7 @@ export default function NewCarDetails() {
   const fetchReviews = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8080/api/reviews/car/${id}`
+        `https://car-backend-final.onrender.com/api/reviews/car/${id}`
       );
       setReviews(res.data);
     } catch {
@@ -100,17 +100,17 @@ export default function NewCarDetails() {
 
   // ===== CONTACT DEALER =====
   const contactDealer = async () => {
-  try {
-    const res = await axios.get(
-      `http://localhost:8080/api/cars/contact/${id}`
-    );
-    setShowroom(res.data);
-    setShowModal(true); // 🔥 THIS opens modal
-  } catch (err) {
-    console.error(err.response?.data || err.message);
-    alert("Dealer details not available");
-  }
-};
+    try {
+      const res = await axios.get(
+        `https://car-backend-final.onrender.com/api/cars/contact/${id}`
+      );
+      setShowroom(res.data);
+      setShowModal(true); // 🔥 THIS opens modal
+    } catch (err) {
+      console.error(err.response?.data || err.message);
+      alert("Dealer details not available");
+    }
+  };
 
 
   // ===== SUBMIT REVIEW =====
@@ -124,7 +124,7 @@ export default function NewCarDetails() {
     }
 
     try {
-      await axios.post("http://localhost:8080/api/reviews", {
+      await axios.post("https://car-backend-final.onrender.com/api/reviews", {
         carId: id,
         userEmail: buyerEmail,
         rating: Number(newReview.rating),
@@ -143,20 +143,20 @@ export default function NewCarDetails() {
   reviews.forEach(r => counts[r.rating - 1]++);
 
   const pieData = {
-  labels: ["1★", "2★", "3★", "4★", "5★"],
-  datasets: [
-    {
-      data: counts,
-      backgroundColor: [
-        "#ce8f9cff",
-        "#73c3f8ff",
-        "#eed493ff",
-        "#9be8e8ff",
-        "#b69de8ff"
-      ]
-    }
-  ]
-};
+    labels: ["1★", "2★", "3★", "4★", "5★"],
+    datasets: [
+      {
+        data: counts,
+        backgroundColor: [
+          "#ce8f9cff",
+          "#73c3f8ff",
+          "#eed493ff",
+          "#9be8e8ff",
+          "#b69de8ff"
+        ]
+      }
+    ]
+  };
 
 
   if (loading) return <div className="loading">Loading...</div>;
@@ -200,10 +200,10 @@ export default function NewCarDetails() {
 
         <div className="action-buttons">
           {car.sellerType === "SHOWROOM" && (
-  <button className="contact-btn" onClick={contactDealer}>
-    <FaPhoneAlt /> Contact Dealer
-  </button>
-)}
+            <button className="contact-btn" onClick={contactDealer}>
+              <FaPhoneAlt /> Contact Dealer
+            </button>
+          )}
 
         </div>
       </div>
@@ -229,40 +229,40 @@ export default function NewCarDetails() {
           <button type="submit">Submit Review</button>
         </form>
         {/* REVIEW LIST */}
-<div className="review-list">
-  {reviews.length ? (
-    reviews.map(r => (
-      <div key={`${id}-${r.userEmail}-${r.createdAt}`} className="review-card">
+        <div className="review-list">
+          {reviews.length ? (
+            reviews.map(r => (
+              <div key={`${id}-${r.userEmail}-${r.createdAt}`} className="review-card">
 
-        <strong>{r.userEmail}</strong>
-        <div className="review-stars">
-          {"★".repeat(r.rating)}
+                <strong>{r.userEmail}</strong>
+                <div className="review-stars">
+                  {"★".repeat(r.rating)}
+                </div>
+                <p>{r.comment}</p>
+              </div>
+            ))
+          ) : (
+            <p>No reviews yet</p>
+          )}
         </div>
-        <p>{r.comment}</p>
-      </div>
-    ))
-  ) : (
-    <p>No reviews yet</p>
-  )}
-</div>
 
       </div>
       {showModal && showroom && (
-  <div className="dealer-modal-overlay">
-    <div className="dealer-modal">
-      <h3>Dealer Contact Details</h3>
+        <div className="dealer-modal-overlay">
+          <div className="dealer-modal">
+            <h3>Dealer Contact Details</h3>
 
-      <p><b>Name:</b> {showroom.name}</p>
-      <p><b>Email:</b> {showroom.email}</p>
-      <p><b>Phone:</b> {showroom.phone}</p>
-      <p><b>Address:</b> {showroom.address}</p>
+            <p><b>Name:</b> {showroom.name}</p>
+            <p><b>Email:</b> {showroom.email}</p>
+            <p><b>Phone:</b> {showroom.phone}</p>
+            <p><b>Address:</b> {showroom.address}</p>
 
-      <button onClick={() => setShowModal(false)}>
-        Close
-      </button>
-    </div>
-  </div>
-)}
+            <button onClick={() => setShowModal(false)}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
 
 
     </div>

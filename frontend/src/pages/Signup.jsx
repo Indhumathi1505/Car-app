@@ -20,7 +20,7 @@ export default function Signup() {
     if (!name || !email || !password) return alert("Please fill all fields");
 
     try {
-      const res = await fetch("http://localhost:8080/api/auth/signup", {
+      const res = await fetch("https://car-backend-final.onrender.com/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -30,7 +30,7 @@ export default function Signup() {
       const data = await res.json();
       alert(data.message);
       if (res.ok) {
-         localStorage.setItem("user", JSON.stringify({ email, name }));
+        localStorage.setItem("user", JSON.stringify({ email, name }));
         navigate("/login");
       }
     } catch (err) {
@@ -48,7 +48,7 @@ export default function Signup() {
       const user = jwtDecode(response.credential);
       console.log("Decoded user:", user);
 
-      const res = await fetch("http://localhost:8080/api/auth/google-login", {
+      const res = await fetch("https://car-backend-final.onrender.com/api/auth/google-login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -69,7 +69,7 @@ export default function Signup() {
   };
 
   return (
-   <div className="signup-container">
+    <div className="signup-container">
       <div className="signup-card">
 
         {/* LEFT PANEL */}

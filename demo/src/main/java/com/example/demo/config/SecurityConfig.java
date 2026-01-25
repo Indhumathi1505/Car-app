@@ -69,7 +69,7 @@ public class SecurityConfig {
         if (allowedOrigins != null && !allowedOrigins.isEmpty()) {
             config.setAllowedOrigins(List.of(allowedOrigins.split(",")));
         } else {
-            config.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:3000", "http://localhost:8080"));
+            config.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:3000", "https://car-backend-final.onrender.com"));
         }
 
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));

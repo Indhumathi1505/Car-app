@@ -9,20 +9,20 @@ export default function SellerInbox() {
   const [selectedBuyer, setSelectedBuyer] = useState("");
 
   // ✅ Correct way
- const loggedUser = JSON.parse(localStorage.getItem("user"));
-const sellerEmail = loggedUser?.email;
-const sellerName = loggedUser?.name;
+  const loggedUser = JSON.parse(localStorage.getItem("user"));
+  const sellerEmail = loggedUser?.email;
+  const sellerName = loggedUser?.name;
 
 
   /* ---------------- LOAD INBOXES ---------------- */
   useEffect(() => {
-    if (!sellerEmail){
+    if (!sellerEmail) {
       console.error("Seller name not found in localStorage");
       return;
     }
 
     axios
-      .get(`http://localhost:8080/api/chat/seller/${sellerEmail}`)
+      .get(`https://car-backend-final.onrender.com/api/chat/seller/${sellerEmail}`)
       .then(res => setInboxes(res.data))
       .catch(err =>
         console.error("Failed to load seller inbox:", err)
@@ -31,8 +31,8 @@ const sellerName = loggedUser?.name;
 
   /* ---------------- BUYERS FOR SELECTED CAR ---------------- */
   const buyers = selectedCar
-  ? inboxes[selectedCar] || []
-  : [];
+    ? inboxes[selectedCar] || []
+    : [];
 
   /* ---------------- AUTO SELECT FIRST BUYER ---------------- */
   useEffect(() => {
@@ -97,16 +97,16 @@ const sellerName = loggedUser?.name;
             Chat with <b>{selectedBuyer}</b> for Car {selectedCar}
           </h4>
           <Chat
-  carId={selectedCar}
-  user={sellerEmail}
-  role="SELLER"
-  receiver={selectedBuyer}
-  buyerEmail={selectedBuyer}   // ✅ explicit
-  sellerEmail={sellerEmail}    // ✅ explicit
-/>
+            carId={selectedCar}
+            user={sellerEmail}
+            role="SELLER"
+            receiver={selectedBuyer}
+            buyerEmail={selectedBuyer}   // ✅ explicit
+            sellerEmail={sellerEmail}    // ✅ explicit
+          />
 
 
-    
+
 
         </div>
       )}

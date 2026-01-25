@@ -1,7 +1,7 @@
 // carService.js
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080/api/cars";
+const BASE_URL = "https://car-backend-final.onrender.com/api/cars";
 
 export const getAllCars = () =>
   axios.get(`${BASE_URL}/all`);
