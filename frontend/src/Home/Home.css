@@ -215,7 +215,7 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
-/* LOGO */
+/* LOGO 
 .brand-card img {
   width: 90px;
   height: auto;
@@ -224,6 +224,17 @@
   background: rgba(255, 255, 255, 0.1);
   border-radius: 50%;
 }
+  */
+  .brand-card img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  padding: 10px;
+  background: #ffffff;        /* ✅ bright background */
+  border-radius: 50%;
+  transition: transform 0.35s ease;
+}
+
 
 /* BRAND NAME */
 .brand-card span {
@@ -240,10 +251,11 @@
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
 }
 
-.brand-card:hover img {
+..brand-card:hover img {
   transform: scale(1.1);
-  background: rgba(255, 255, 255, 0.2);
+  background: #ffffff; /* keep visible */
 }
+
 
 .brand-card:hover span {
   color: #ffffff;
