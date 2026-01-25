@@ -23,7 +23,8 @@ import java.util.Optional;
 @RequestMapping("/api/cars")
 @CrossOrigin(origins = {
     "http://localhost:5173",
-    "http://localhost:5174"
+    "http://localhost:5174",
+    "https://car-app-ch3s.onrender.com"
 })
 
 public class CarController {

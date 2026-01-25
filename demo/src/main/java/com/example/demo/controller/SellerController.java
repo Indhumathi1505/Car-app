@@ -19,7 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/seller")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:5173", "https://car-app-ch3s.onrender.com"}, allowCredentials = "true")
 public class SellerController {
 
     @Autowired

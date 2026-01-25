@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/admin/cars")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173", "https://car-app-ch3s.onrender.com"})
 public class AdminCarController {
 
     private final CarRepository carRepository;

@@ -14,7 +14,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(
-        origins = {"http://localhost:5173", "http://localhost:3000"},
+        origins = {"http://localhost:5173", "http://localhost:3000", "https://car-app-ch3s.onrender.com"},
         allowCredentials = "true"
 )
 public class AuthController {

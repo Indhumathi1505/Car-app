@@ -16,7 +16,7 @@ import java.util.UUID;
 import java.util.Map;
 @RestController
 @RequestMapping("/api/reviews")
-@CrossOrigin(origins = "http://localhost:5173") // adjust if needed
+@CrossOrigin(origins = {"http://localhost:5173", "https://car-app-ch3s.onrender.com"}) // adjust if needed
 public class ReviewsController {
 
     @Autowired

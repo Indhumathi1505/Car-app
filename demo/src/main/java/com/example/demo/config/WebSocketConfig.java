@@ -20,7 +20,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")  // must match React SOCKET_URL
-                .setAllowedOriginPatterns("http://localhost:5173") // frontend origin
+                .setAllowedOriginPatterns("http://localhost:5173", "https://car-app-ch3s.onrender.com") // frontend origin
                 .withSockJS()
                 .setInterceptors(new HttpSessionHandshakeInterceptor()); // ✅ preserves session cookies
     }
