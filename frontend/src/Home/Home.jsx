@@ -70,7 +70,12 @@ export default function Home() {
       .get("api/cars/recommended")
       .then((res) => setRecommendedCars(res.data))
       .catch((err) =>
-        console.error("Failed to load recommended cars", err)
+        console.error("Failed to load recommended cars. Error details:", {
+          message: err.message,
+          response: err.response?.data,
+          status: err.response?.status,
+          fullError: err
+        })
       );
   }, []);
 
@@ -155,11 +160,11 @@ export default function Home() {
 
         <div className="brands-grid">
           {BRANDS.map((b) => (
-           <Link
-  to={`/brand/${b.name.trim().toUpperCase()}`}
-  className="brand-card"
-  key={b.name}
->
+            <Link
+              to={`/brand/${b.name.trim().toUpperCase()}`}
+              className="brand-card"
+              key={b.name}
+            >
 
               <img src={b.src} alt={b.name} />
               <span>{b.name}</span>
