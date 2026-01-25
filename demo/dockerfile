@@ -2,10 +2,16 @@ FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
+# Copy all files
 COPY . .
 
+# Ensure mvnw is executable
+RUN chmod +x mvnw
+
+# Build the application
 RUN ./mvnw clean package -DskipTests
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "target/*.jar"]
+# Use shell form to allow wildcard *.jar or specific name
+CMD java -jar target/car-api-0.0.1-SNAPSHOT.jar
