@@ -29,7 +29,7 @@ import honda from "../assets/brands/honda.png";
 import toyota from "../assets/brands/toyota.jpg";
 import bentley from "../assets/brands/bentley.png";
 import mercedes from "../assets/brands/mercedes.png";
-import jaguar from "../assets/brands/jaguar.png";
+import jaguar from "../assets/brands/jaguar.svg";
 
 
 import api from "../api/api";
