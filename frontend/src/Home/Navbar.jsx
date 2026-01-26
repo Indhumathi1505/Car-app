@@ -1,7 +1,7 @@
 // src/Home/Navbar.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import hero from "../assets/hero.jpg"; // adjust path if needed
+import logo from "../assets/logo.png";
 import "./Navbar.css"; // your CSS file for styling
 
 export default function Navbar({ toggleMenu }) {
@@ -16,7 +16,7 @@ export default function Navbar({ toggleMenu }) {
           <span></span>
         </button>
         <div className="brand">
-          <img src={hero} alt="logo" className="brand-logo" />
+          <img src={logo} alt="logo" className="brand-logo" />
           <h1 className="brand-title">CARTRIZO</h1>
         </div>
       </div>

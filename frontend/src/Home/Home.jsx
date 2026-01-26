@@ -21,7 +21,7 @@ import jaguar from "../assets/brands/jaguar.png";
 */
 import hero from "../assets/hero.jpg";
 import audi from "../assets/brands/audi.png";
-import bmw from "../assets/brands/bmw.jpg";
+import bmw from "../assets/brands/bmw.png";
 import lamborghini from "../assets/brands/lamborghini.jpg";
 import ford from "../assets/brands/ford.jpg";
 import suzuki from "../assets/brands/suzuki.jpg";

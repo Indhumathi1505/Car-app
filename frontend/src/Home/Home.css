@@ -59,7 +59,10 @@
 }
 
 .brand-logo {
-  height: 36px;
+  height: 48px;
+  /* Increased height for better visibility */
+  width: auto;
+  object-fit: contain;
 }
 
 .brand-title {
@@ -225,12 +228,13 @@
   border-radius: 50%;
 }
   */
-  .brand-card img {
+.brand-card img {
   width: 90px;
   height: 90px;
   object-fit: contain;
   padding: 10px;
-  background: #ffffff;        /* ✅ bright background */
+  background: #ffffff;
+  /* ✅ bright background */
   border-radius: 50%;
   transition: transform 0.35s ease;
 }
@@ -253,7 +257,8 @@
 
 .brand-card:hover img {
   transform: scale(1.1);
-  background: #ffffff; /* keep visible */
+  background: #ffffff;
+  /* keep visible */
 }
 
 
