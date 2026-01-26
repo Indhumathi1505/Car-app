@@ -31,7 +31,7 @@ export default function Signup() {
       alert(data.message);
       if (res.ok) {
         localStorage.setItem("user", JSON.stringify({ email, name }));
-        navigate("/login");
+        navigate("/info");
       }
     } catch (err) {
       alert("Server error: " + err.message);
@@ -61,7 +61,7 @@ export default function Signup() {
       const data = await res.json();
       alert(data.message);
 
-      if (res.ok) navigate("/"); // redirect after login
+      if (res.ok) navigate("/info"); // redirect after login
     } catch (err) {
       console.error(err);
       alert("Google Sign In Failed");

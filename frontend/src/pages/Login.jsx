@@ -59,7 +59,7 @@ export default function Login() {
           role: data.role,
           token: data.token
         }));
-        navigate("/info");
+        navigate("/");
         return;
       }
       alert(data.message || "Invalid email or password");
@@ -93,7 +93,7 @@ export default function Login() {
           role: data.role,
           token: data.token
         }));
-        navigate("/info");
+        navigate("/");
         return;
       }
       alert(data.message || "Login failed");
