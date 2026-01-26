@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Profile.css";
 
 function Profile() {
+  const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [originalProfile, setOriginalProfile] = useState(null);
   const [preview, setPreview] = useState(null);
 
@@ -13,19 +16,39 @@ function Profile() {
     const fetchProfile = async () => {
       try {
         const user = JSON.parse(localStorage.getItem("user"));
-        if (!user?.email) throw new Error("User not logged in");
+        if (!user?.email) {
+          setError("User not logged in. Please login first.");
+          setLoading(false);
+          return;
+        }
 
         const res = await fetch(
-          `https://car-backend-final.onrender.com/api/profile/${user.email}`
+          `https://car-backend-final.onrender.com/api/profile/${user.email}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
         );
 
-        if (!res.ok) throw new Error("Failed to fetch profile");
+        if (!res.ok) {
+          if (res.status === 404) {
+            setError("Profile not found. Please complete your profile information.");
+          } else {
+            setError(`Failed to fetch profile: ${res.status} ${res.statusText}`);
+          }
+          setLoading(false);
+          return;
+        }
 
         const data = await res.json();
         setProfile(data);
         setOriginalProfile(data);
+        setError(null);
       } catch (error) {
         console.error("Profile fetch error:", error);
+        setError(`Failed to fetch user data: ${error.message}`);
       } finally {
         setLoading(false);
       }
@@ -91,7 +114,30 @@ function Profile() {
   };
 
   if (loading) return <p className="loading-text">Loading profile...</p>;
-  if (!profile) return <p>No profile found</p>;
+
+  if (error || !profile) {
+    return (
+      <div className="profile-wrapper">
+        <div className="profile-outer">
+          <div className="profile-card" style={{ padding: "2rem", textAlign: "center" }}>
+            <h2>⚠️ {error || "No profile found"}</h2>
+            <p style={{ marginTop: "1rem", color: "#666" }}>
+              {error?.includes("not found") || error?.includes("not logged in")
+                ? "You need to complete your profile information first."
+                : "There was an error loading your profile. Please try again."}
+            </p>
+            <button
+              className="edit-btn"
+              onClick={() => navigate("/info")}
+              style={{ marginTop: "1.5rem" }}
+            >
+              Complete Profile Information
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const avatarSrc =
     preview ||

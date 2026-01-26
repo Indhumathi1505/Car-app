@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./info.css";
 
@@ -16,6 +16,14 @@ export default function ProfileInfo() {
     address: "",
     image: null // ✅ for file upload
   });
+
+  /* ---------------- Pre-fill email from localStorage ---------------- */
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user?.email) {
+      setForm((prev) => ({ ...prev, email: user.email }));
+    }
+  }, []);
 
   /* ---------------- Handle input changes ---------------- */
   const handleChange = (e) => {
