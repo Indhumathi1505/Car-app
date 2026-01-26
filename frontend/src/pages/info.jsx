@@ -52,7 +52,7 @@ export default function ProfileInfo() {
       if (!res.ok) throw new Error("API failed");
 
       alert("Profile saved successfully!");
-      navigate("/"); // go to home page
+      navigate("/profile"); // go to profile page
 
     } catch (error) {
       console.error(error);
